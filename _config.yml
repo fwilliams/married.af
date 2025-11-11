@@ -1,0 +1,14 @@
+title: Amanda & Francis
+description: Wedding website for Amanda Zhang and Francis Williams
+url: "https://married.af"
+
+# Build settings
+markdown: kramdown
+theme: minima
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - LICENSE
