@@ -1,0 +1,58 @@
+// Motion — intro fade-up, Ken Burns, parallax hook, scroll reveal.
+// All motion honors prefers-reduced-motion (dropped to 0ms below).
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+// Intro fade-up REMOVED.
+// Earlier revisions staggered opacity 0 -> 1 on load with fill: both, which
+// meant if anything delayed the animation (slow font load, browser pauses,
+// reduced-motion), the element stayed invisible. The page is already
+// animated via Ken Burns + scroll-reveal + parallax; we don't need another
+// layer that can fail-open to "invisible".
+// .masthead still gets a gentle fade-in without fill: both so it's always
+// eventually visible even if the animation misbehaves.
+.masthead { animation: fadeIn var(--t-med) 0ms forwards var(--ease-std); }
+
+// Ken Burns — slow but *visible*. 22s cycle, 1.03 -> 1.13 scale + drift.
+// Runs on .hero-photo; parallax runs on .hero-parallax wrapper so the two
+// transforms never fight. The animation alternates forever so the photo feels
+// permanently alive rather than settling at one frame.
+@keyframes kenBurns {
+  0%   { transform: scale(1.03) translate3d(0, 0, 0); }
+  100% { transform: scale(1.13) translate3d(-1.5%, -2.5%, 0); }
+}
+.hero-photo {
+  animation: kenBurns 22s var(--ease-std) alternate infinite;
+}
+
+// Scroll-triggered reveal utility — driven by IntersectionObserver in main.js
+.on-scroll {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity   var(--t-slow) var(--ease-std),
+              transform var(--t-slow) var(--ease-std);
+}
+.on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+// Respect user preference — no motion at all.
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+  .hero-photo { animation: none; transform: none; }
+  .on-scroll { opacity: 1; transform: none; }
+}

@@ -1,0 +1,11 @@
+{%- comment -%}Empty state for pages with status: draft or status: teaser.{%- endcomment -%}
+<section class="coming-soon">
+  <div class="vein" aria-hidden="true"></div>
+  <div class="coming-soon__label">{{ include.label | default: "Coming Soon" }}</div>
+  <h1 class="coming-soon__title">{{ include.title | default: page.title }}</h1>
+  {%- if include.note or page.coming_soon_note -%}
+    <p class="coming-soon__note">{{ include.note | default: page.coming_soon_note }}</p>
+  {%- else -%}
+    <p class="coming-soon__note">This page will fill in as the weekend takes shape. Check back closer to the date.</p>
+  {%- endif -%}
+</section>

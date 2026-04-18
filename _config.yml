@@ -1,14 +1,68 @@
-title: Amanda & Francis
-description: Wedding website for Amanda Zhang and Francis Williams
+title: "Amanda & Francis"
+tagline: "Married in Montréal · 2026"
+description: "Amanda Zhang and Francis Williams are getting married in Montréal in 2026."
 url: "https://married.af"
+author: "Amanda & Francis"
+lang: en
+
+# Content settings
+markdown: kramdown
+kramdown:
+  smart_quotes: ["lsquo", "rsquo", "ldquo", "rdquo"]
+  typographic_symbols:
+    hellip: "…"
+    ndash: "–"
+    mdash: "—"
+
+# Plugins
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Wedding config — edit these as details solidify
+wedding:
+  date_long: "The Fifteenth of Month"          # long, romantic form
+  date_short: "Month 15, 2026"                 # short form for OG/meta
+  location: "Montréal"
+  venue: ""                                    # fill in when booked
+  rsvp_deadline: ""                            # fill in when set
+  contact_email: "hello@married.af"            # placeholder
+
+# RSVP backend — Withjoy. Fill in the redirect URL after creating the Joy event.
+rsvp:
+  redirect_url_template: ""                    # e.g. https://withjoy.com/amanda-and-francis/rsvp?guest={code}
+  testing: true                                # when true, ?c=TEST surfaces a test banner
+
+# Passphrase gate — generate a hash once passphrase is chosen
+gate:
+  passphrase_hash: ""                          # SHA-256 hex of the passphrase
+  passphrase_version: 1                        # bump to invalidate stored unlocks
+
+# Analytics — fill with GA4 measurement ID once site is live
+analytics:
+  ga4_id: ""
+
+# Seasonal content branching for /montreal
+season: "summer"   # summer | winter
 
 # Build settings
-markdown: kramdown
-theme: minima
-
-# Exclude from processing
+permalink: pretty
 exclude:
   - Gemfile
   - Gemfile.lock
   - README.md
   - LICENSE
+  - DESIGN_REVIEW.md
+  - PALETTE_EXPLORATIONS.md
+  - mockups/
+  - node_modules/
+  - vendor/
+  - .vscode/
+  - landing.html     # the mockup extract; not part of the real site
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: "page"
+      status: "live"

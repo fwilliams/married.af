@@ -1,0 +1,102 @@
+// ============================================================
+//   FIG & GILT — Design tokens
+//   Every CSS value on the site traces back to a token here.
+//   If a value doesn't live in this file, it must carry an
+//   inline comment explaining why.
+// ============================================================
+
+:root {
+  // ---- Fonts ----
+  --type-display: 'Cormorant Garamond', 'Times New Roman', serif; // display + paragraphs
+  --type-caps:    'Cormorant SC', 'Cormorant Garamond', serif;    // small-caps labels
+  --type-body:    'EB Garamond', Georgia, serif;                  // body reading
+
+  // ---- Weights (only three in the system) ----
+  --w-light:   300;   // display headings, major paragraphs
+  --w-regular: 400;   // body, italic accents
+  --w-medium:  500;   // small-caps labels
+
+  // ---- Type scale (display + body) ----
+  --ts-names:    clamp(3.25rem, 10vw, 7.5rem);   // hero names only
+  --ts-note:     1.5rem;                          // major paragraphs
+  --ts-subtitle: clamp(1rem, 1.8vw, 1.25rem);     // italic subtitles
+  --ts-quote:    1.0625rem;                       // italic inline
+  --ts-body:     0.9375rem;                       // body reading
+
+  // ---- Label scale (small-caps; 3 tiers, 1 tracking) ----
+  --ts-label-lg: 13px;   // primary label (date)
+  --ts-label-md: 11px;   // standard eyebrow
+  --ts-label-sm: 10px;   // fine print
+  --tracking-label: 0.4em;    // every label, no exceptions
+  --tracking-tight: 0.18em;   // single-letter controls only
+  --tracking-names: 0.015em;  // optical, names only
+
+  // ---- Line heights ----
+  --lh-display: 0.95;
+  --lh-read:    1.5;
+  --lh-body:    1.65;
+  --lh-label:   1;
+
+  // ---- Space scale (8-point grid) ----
+  --s-1:   4px;
+  --s-2:   8px;
+  --s-3:  12px;
+  --s-4:  16px;
+  --s-5:  24px;
+  --s-6:  32px;   // outer page gutter
+  --s-7:  48px;
+  --s-8:  64px;   // major interior padding
+  --s-9:  96px;
+  --s-10: 128px;  // major section rhythm
+
+  // ---- Mark vocabulary ----
+  --mark-stroke:       1px;
+  --mark-major-w:     100px;
+  --mark-minor-w:      60px;
+  --mark-vein-h:       64px;  // == --s-8
+  --mark-op-structural: 0.65;
+  --mark-op-ornamental: 0.85;
+
+  // ---- Motion ----
+  --t-fast:   200ms;
+  --t-med:    450ms;
+  --t-slow:   900ms;
+  --stagger:  160ms;
+  --ease-std: cubic-bezier(0.2, 0.6, 0.2, 1);
+
+  // ---- Shape ----
+  --r-pill: 999px;
+
+  // ---- Surfaces ----
+  --base:  #14110F;   // Inkwell, near-black warm
+  --inset: #242120;   // elevated surface
+  --deep:  #0A0908;   // absolute dark (footer)
+
+  // ---- Type tiers ----
+  --ink:         #EEE6D6;   // tier 1 — primary reading (~14:1)
+  --ink-whisper: #BFB5A4;   // tier 2 — subtitles/date  (~8.6:1)
+  --ink-muted:   #978B7C;   // tier 3 — eyebrow/footer (~5.9:1)
+
+  // ---- Burgundy (structural) ----
+  --gilt:        #5F1A26;
+  --gilt-bright: #8B2B3A;   // NOT for text
+  --rule:        rgba(139, 43, 58, 0.45);
+
+  // ---- Metallic (ornamental + interactive) ----
+  --metallic:    #D4C29A;   // Champagne
+  --metallic-hi: #E8D9B8;
+
+  // ---- Hero photo grading ----
+  // Photo is a SUBTLE atmospheric backdrop, not a dominant composition.
+  // Names are the hero; photo provides warmth + texture underneath.
+  --overlay-top: rgba(20, 17, 15, 0.58);
+  --overlay-mid: rgba(20, 17, 15, 0.48);
+  --overlay-bot: rgba(20, 17, 15, 0.95);
+  // Atmospheric wash: photo is a warm ember glow behind the type, not a
+  // portrait competing with the names. Low brightness + saturated sepia
+  // pushes the snow-and-puffer-jacket photo into a candlelit tone.
+  --photo-filter: brightness(0.45) contrast(1.12) saturate(0.72) sepia(0.38) hue-rotate(-14deg);
+
+  // ---- Browser UI integration ----
+  color-scheme: dark;
+}

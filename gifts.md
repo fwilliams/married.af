@@ -1,0 +1,12 @@
+---
+layout: default
+title: Gifts
+seo_title: Gifts
+description: A private page for those who would like to send a gift.
+status: draft
+permalink: /gifts/
+noindex: true
+sitemap: false
+noanalytics: true
+coming_soon_note: "Your presence is the gift. A page for those who insist will arrive closer to the date."
+---

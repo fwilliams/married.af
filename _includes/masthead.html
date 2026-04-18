@@ -1,0 +1,21 @@
+<header class="masthead" id="masthead">
+  <a class="masthead__brand" href="{{ '/' | relative_url }}" aria-label="Amanda and Francis — home">
+    {% include monogram.html size=32 class="masthead__mark" %}
+    <span class="masthead__text">
+      <span class="masthead__title">A <em>&amp;</em> F</span>
+      <span class="masthead__sub">{{ site.tagline }}</span>
+    </span>
+  </a>
+  <nav class="nav" aria-label="Primary">
+    {%- assign nav_pages = "story|details|montreal|rsvp|gifts" | split: "|" -%}
+    {%- assign nav_labels = "Our Story|Details|Montréal|RSVP|Gifts" | split: "|" -%}
+    {%- for slug in nav_pages -%}
+      {%- assign idx = forloop.index0 -%}
+      {%- assign label = nav_labels[idx] -%}
+      {%- assign href = slug | prepend: "/" | append: "/" | relative_url -%}
+      {%- assign current = false -%}
+      {%- if page.url contains slug -%}{%- assign current = true -%}{%- endif -%}
+      <a href="{{ href }}"{% if current %} aria-current="page"{% endif %}>{{ label }}</a>
+    {%- endfor -%}
+  </nav>
+</header>

@@ -1,0 +1,30 @@
+// Print styles — light background, dark text, inline link URLs.
+// Keeps /details and /montreal useful when guests print travel info.
+
+@media print {
+  * { color: #000 !important; background: #fff !important; }
+
+  .masthead,
+  .hero-photo,
+  .hero-overlay,
+  .footer,
+  .vein,
+  .on-scroll { display: none !important; }
+
+  .hero {
+    min-height: auto;
+    padding: 0;
+  }
+
+  a[href^="http"]::after,
+  a[href^="mailto:"]::after,
+  a[href^="tel:"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    color: #666;
+  }
+
+  .hairline { background: #999 !important; opacity: 1 !important; }
+  .names { color: #000 !important; }
+  .names .amp { color: #5F1A26 !important; }  // keep the signature burgundy
+}

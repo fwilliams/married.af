@@ -1,0 +1,369 @@
+// Components — masthead, nav, footer, centerpiece, marks, pull-quote.
+// All values trace to _tokens.scss.
+
+// Masthead — magazine-style nav: brand left, nav right.
+// Transparent over hero; Inkwell backdrop + blur on scroll.
+.masthead {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--s-7);
+  padding: var(--s-4) var(--s-6);
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background var(--t-med) var(--ease-std),
+              border-color var(--t-med) var(--ease-std),
+              backdrop-filter var(--t-med) var(--ease-std),
+              padding var(--t-med) var(--ease-std);
+}
+
+.masthead.is-scrolled {
+  padding-top: var(--s-3);
+  padding-bottom: var(--s-3);
+  background: color-mix(in srgb, var(--base) 88%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom-color: var(--rule);
+}
+
+.masthead__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  text-decoration: none;
+  color: var(--ink);
+  opacity: 0.98;
+  transition: opacity var(--t-fast) var(--ease-std);
+  text-shadow: 0 1px 2px rgba(20, 17, 15, 0.85), 0 2px 24px rgba(20, 17, 15, 0.55);
+}
+.masthead__brand:hover { opacity: 1; }
+.masthead__brand:focus-visible { opacity: 1; outline: none; }
+.masthead__brand:focus-visible .masthead__mark {
+  outline: 2px solid var(--metallic);
+  outline-offset: 4px;
+  border-radius: 50%;
+}
+
+.masthead__mark {
+  width: 32px;
+  height: 32px;
+  color: var(--metallic);
+  opacity: 0.95;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+  flex: 0 0 auto;
+}
+
+.masthead__text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  line-height: 1;
+}
+
+.masthead__title {
+  font-family: var(--type-display);
+  font-weight: var(--w-regular);
+  font-style: normal;
+  font-size: 1.5rem;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+.masthead__title em {
+  font-style: italic;
+  font-weight: var(--w-regular);
+  color: var(--gilt);
+  padding: 0 0.08em;
+}
+
+.masthead__sub {
+  font-family: var(--type-caps);
+  font-weight: var(--w-medium);
+  font-size: var(--ts-label-sm);
+  letter-spacing: var(--tracking-label);
+  line-height: var(--lh-label);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  padding-left: var(--tracking-label);
+  opacity: 0.85;
+  max-height: 1em;
+  overflow: hidden;
+  transition: opacity var(--t-med) var(--ease-std),
+              max-height var(--t-med) var(--ease-std);
+}
+.masthead.is-scrolled .masthead__sub {
+  opacity: 0;
+  max-height: 0;
+}
+
+// Primary nav (inside masthead)
+.nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--s-5);
+  grid-column: 3;
+}
+.nav a {
+  font-family: var(--type-caps);
+  font-weight: var(--w-medium);
+  font-size: var(--ts-label-md);
+  letter-spacing: var(--tracking-label);
+  line-height: var(--lh-label);
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  opacity: 0.82;
+  position: relative;
+  padding: var(--s-1) 2px;
+  transition: opacity var(--t-fast) var(--ease-std);
+  text-shadow: 0 1px 2px rgba(20, 17, 15, 0.85), 0 2px 24px rgba(20, 17, 15, 0.55);
+}
+.nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: var(--mark-stroke);
+  background: var(--metallic);
+  opacity: var(--mark-op-ornamental);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--t-fast) var(--ease-std),
+              background var(--t-med) var(--ease-std);
+}
+.nav a:hover,
+.nav a:focus-visible { opacity: 1; outline: none; }
+.nav a:hover::after,
+.nav a:focus-visible::after { transform: scaleX(1); }
+.nav a[aria-current="page"] { opacity: 1; }
+.nav a[aria-current="page"]::after { transform: scaleX(1); opacity: 0.6; }
+
+// Footer
+.footer {
+  padding: var(--s-7) var(--s-6);
+  background: var(--deep);
+  text-align: center;
+  color: var(--ink-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-4);
+}
+.footer__monogram {
+  width: 28px;
+  height: 28px;
+  color: var(--metallic);
+  opacity: 0.75;
+}
+.footer__line {
+  font-family: var(--type-caps);
+  font-weight: var(--w-medium);
+  font-size: var(--ts-label-sm);
+  letter-spacing: var(--tracking-label);
+  line-height: var(--lh-label);
+  text-transform: uppercase;
+  padding-left: var(--tracking-label);
+}
+.footer__line a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--metallic) 40%, transparent);
+  transition: border-color var(--t-fast) var(--ease-std);
+}
+.footer__line a:hover { border-bottom-color: var(--metallic); }
+
+// Centerpiece — monogram → names → date → tagline → closing mark
+.centerpiece {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--s-5);
+  padding: var(--s-8) 0;
+}
+.monogram {
+  width: 56px;
+  height: 56px;
+  color: var(--metallic);
+  opacity: 0.95;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+}
+.names {
+  font-family: var(--type-display);
+  font-weight: var(--w-light);
+  font-size: var(--ts-names);
+  line-height: var(--lh-display);
+  letter-spacing: var(--tracking-names);
+  color: var(--ink);
+  text-shadow: 0 1px 2px rgba(20, 17, 15, 0.85), 0 2px 24px rgba(20, 17, 15, 0.55);
+}
+.names .amp {
+  font-weight: var(--w-regular);
+  font-style: italic;
+  color: var(--gilt);
+  padding: 0 0.08em;
+}
+.date-line {
+  font-family: var(--type-caps);
+  font-weight: var(--w-medium);
+  font-size: var(--ts-label-lg);
+  letter-spacing: var(--tracking-label);
+  line-height: var(--lh-label);
+  text-transform: uppercase;
+  color: var(--ink-whisper);
+  padding-left: var(--tracking-label);
+  text-shadow: 0 1px 2px rgba(20, 17, 15, 0.85), 0 2px 24px rgba(20, 17, 15, 0.55);
+}
+.tagline {
+  font-family: var(--type-display);
+  font-weight: var(--w-light);
+  font-style: italic;
+  font-size: var(--ts-subtitle);
+  line-height: var(--lh-read);
+  color: var(--ink-whisper);
+  max-width: 34ch;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(20, 17, 15, 0.85), 0 2px 24px rgba(20, 17, 15, 0.55);
+}
+
+// Marks
+.hairline {
+  width: var(--mark-major-w);
+  height: var(--mark-stroke);
+  background: var(--gilt);
+  opacity: var(--mark-op-structural);
+}
+.hairline--minor {
+  width: var(--mark-minor-w);
+  background: var(--rule);
+  opacity: 1;
+}
+.vein {
+  width: var(--mark-stroke);
+  height: var(--mark-vein-h);
+  opacity: var(--mark-op-ornamental);
+  background: linear-gradient(180deg,
+    transparent 0%,
+    var(--metallic) 28%,
+    var(--metallic-hi) 50%,
+    var(--metallic) 72%,
+    transparent 100%);
+  box-shadow: 0 0 4px color-mix(in srgb, var(--metallic) 60%, transparent);
+}
+
+// Teaser (bottom of hero)
+.teaser {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-3);
+}
+.teaser-label {
+  font-family: var(--type-caps);
+  font-weight: var(--w-medium);
+  font-size: var(--ts-label-md);
+  letter-spacing: var(--tracking-label);
+  line-height: var(--lh-label);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  padding-left: var(--tracking-label);
+  text-shadow: 0 1px 2px rgba(20, 17, 15, 0.85), 0 2px 24px rgba(20, 17, 15, 0.55);
+}
+.teaser-line {
+  font-family: var(--type-display);
+  font-weight: var(--w-light);
+  font-style: italic;
+  font-size: var(--ts-quote);
+  line-height: var(--lh-read);
+  color: var(--ink);
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(20, 17, 15, 0.85), 0 2px 24px rgba(20, 17, 15, 0.55);
+}
+
+// Pull-quote
+.pull-quote {
+  position: relative;
+  margin: 0;
+  padding-left: var(--s-7);
+  font-family: var(--type-display);
+  font-weight: var(--w-light);
+  font-style: italic;
+  font-size: clamp(1.5rem, 2.8vw, 2.25rem);
+  line-height: 1.35;
+  color: var(--ink);
+  max-width: 42ch;
+}
+.pull-quote__mark {
+  position: absolute;
+  left: -0.1em;
+  top: -0.35em;
+  font-family: var(--type-display);
+  font-style: normal;
+  font-weight: var(--w-regular);
+  font-size: 4.5em;
+  line-height: 1;
+  color: var(--gilt);
+  opacity: 0.75;
+  pointer-events: none;
+  user-select: none;
+}
+
+// Coming-soon empty state (for status: draft | teaser)
+.coming-soon {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--s-5);
+  padding: var(--s-9) var(--s-6);
+}
+.coming-soon__label {
+  font-family: var(--type-caps);
+  font-weight: var(--w-medium);
+  font-size: var(--ts-label-md);
+  letter-spacing: var(--tracking-label);
+  line-height: var(--lh-label);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  padding-left: var(--tracking-label);
+}
+.coming-soon__title {
+  font-family: var(--type-display);
+  font-weight: var(--w-light);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: var(--lh-display);
+  color: var(--ink);
+  letter-spacing: var(--tracking-names);
+}
+.coming-soon__note {
+  font-family: var(--type-display);
+  font-weight: var(--w-light);
+  font-style: italic;
+  font-size: var(--ts-subtitle);
+  line-height: var(--lh-read);
+  color: var(--ink-whisper);
+  max-width: 42ch;
+}
+.coming-soon .vein {
+  height: 48px;
+}
+
+// Body copy (fine print within a column) — used in the below-fold supporting paragraph
+.body-copy {
+  font-family: var(--type-body);
+  font-weight: var(--w-regular);
+  font-size: var(--ts-body);
+  line-height: var(--lh-body);
+  color: var(--ink-muted);
+  max-width: 44ch;
+}

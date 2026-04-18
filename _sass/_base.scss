@@ -1,0 +1,114 @@
+// ============================================================
+//   RESET + GLOBAL TYPOGRAPHY PRIMITIVES
+// ============================================================
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  // Allow smooth anchor scrolling, honor reduced-motion below
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+}
+
+html, body {
+  background: var(--base);
+  color: var(--ink);
+  font-family: var(--type-body);
+  font-weight: var(--w-regular);
+  line-height: var(--lh-body);
+  // Typographic micro-details (enforced globally)
+  font-feature-settings: "kern", "liga", "clig";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  hanging-punctuation: first last;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+// ---- Focus rings (global default) ----
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--metallic);
+  outline-offset: 2px;
+}
+
+// ---- Links (global; components override specifics) ----
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity var(--t-fast) var(--ease-std);
+}
+a:hover { opacity: 0.88; }
+
+// ---- Images ----
+img, svg, video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+// ---- Semantic utility classes ----
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// ---- Typographic utility classes (label tiers; shared across all small-caps) ----
+.label-lg, .label-md, .label-sm {
+  font-family: var(--type-caps);
+  font-weight: var(--w-medium);
+  line-height: var(--lh-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  padding-left: var(--tracking-label);  // visually re-center letter-spaced text
+  color: var(--ink-muted);
+}
+.label-lg { font-size: var(--ts-label-lg); }
+.label-md { font-size: var(--ts-label-md); }
+.label-sm { font-size: var(--ts-label-sm); }
+
+// Eyebrow / chapter marker — same as label-md but with semantic meaning
+.chapter-marker {
+  @extend .label-md;
+  color: var(--ink-muted);
+}
+
+// Tier 2 labels (the date line)
+.label-primary {
+  @extend .label-lg;
+  color: var(--ink-whisper);
+}
+
+// Body text utilities
+.prose {
+  font-family: var(--type-display);
+  font-weight: var(--w-light);
+  font-size: var(--ts-note);
+  line-height: var(--lh-read);
+  color: var(--ink);
+  max-width: 28ch;
+}
+
+// Selection
+::selection {
+  background: var(--gilt);
+  color: var(--ink);
+}

@@ -1,0 +1,10 @@
+{%- comment -%}GA4 — loads only if site.analytics.ga4_id is set AND page.noanalytics isn't true.{%- endcomment -%}
+{%- if site.analytics.ga4_id and site.analytics.ga4_id != "" and page.noanalytics != true -%}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ site.analytics.ga4_id }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ site.analytics.ga4_id }}', { anonymize_ip: true });
+</script>
+{%- endif -%}

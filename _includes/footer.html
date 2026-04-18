@@ -1,0 +1,9 @@
+<footer class="footer" role="contentinfo">
+  {% include monogram.html size=28 class="footer__monogram" %}
+  <div class="footer__line">© {{ 'now' | date: "%Y" }} · Amanda &amp; Francis</div>
+  {%- if site.wedding.contact_email and site.wedding.contact_email != "" -%}
+    <div class="footer__line">
+      Questions? <a href="mailto:{{ site.wedding.contact_email }}">{{ site.wedding.contact_email }}</a>
+    </div>
+  {%- endif -%}
+</footer>

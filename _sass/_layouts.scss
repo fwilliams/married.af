@@ -1,0 +1,120 @@
+// Layouts — full-bleed hero, asymmetric two-column, image grid.
+// Composition-level layouts; components sit inside these.
+
+// Page wrapper — sits below the fixed masthead
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+// Full-bleed hero
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: var(--s-6) var(--s-6) var(--s-5);
+  overflow: hidden;
+}
+// Parallax wrapper — JS translates this on scroll (~35% of scroll speed).
+// Kept separate from .hero-photo so JS transform and CSS Ken Burns animation
+// don't fight over the transform property.
+.hero-parallax {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  will-change: transform;
+}
+.hero-photo {
+  position: absolute;
+  inset: -40px;                // bleed buffer for Ken Burns scale + parallax drift
+  background-image: var(--hero-photo, url('/assets/engagement_pic.jpg'));
+  background-size: cover;
+  background-position: center 38%;
+  filter: var(--photo-filter);
+  transform: scale(1.02);
+  transition: filter 600ms var(--ease-std);
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  // Soft top/bottom falloff only. The photo is the hero background; type
+  // readability handled by text-shadow halos on the centerpiece.
+  background: linear-gradient(180deg,
+    var(--overlay-top) 0%,
+    var(--overlay-mid) 18%,
+    var(--overlay-mid) 75%,
+    rgba(20, 17, 15, 0.45) 92%,
+    var(--overlay-bot) 100%);
+}
+// Lift content above the absolute photo + overlay layers.
+// IMPORTANT: do not use .hero > * — that would reset .hero-parallax and
+// .hero-overlay from absolute back to relative, collapsing them to height 0.
+.hero > .centerpiece,
+.hero > .teaser { position: relative; z-index: 2; }
+
+// Asymmetric two-column (photo + pull-quote pattern)
+.grid-asym {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: var(--s-9);
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.grid-asym--mirror { grid-template-columns: 7fr 5fr; }
+
+// Below-the-fold / "below" section wrapper
+.below {
+  padding: var(--s-10) var(--s-6);
+  background: var(--base);
+}
+
+// Figure with caption (used inside grid-asym)
+.figure-portrait {
+  position: relative;
+  margin: 0;
+}
+.figure-portrait img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  filter: brightness(0.72) contrast(1.02) saturate(0.85);
+  box-shadow: 0 28px 60px -24px rgba(0, 0, 0, 0.65);
+}
+.figure-portrait figcaption {
+  font-family: var(--type-caps);
+  font-weight: var(--w-medium);
+  font-size: var(--ts-label-sm);
+  letter-spacing: var(--tracking-label);
+  line-height: var(--lh-label);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  padding-left: var(--tracking-label);
+  margin-top: var(--s-4);
+}
+
+// Text column (used inside grid-asym)
+.col-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+}
+
+// Mobile: single-column stack below 720px
+@media (max-width: 720px) {
+  .grid-asym,
+  .grid-asym--mirror {
+    grid-template-columns: 1fr;
+    gap: var(--s-7);
+  }
+  .pull-quote { padding-left: var(--s-6); }
+  .pull-quote__mark { font-size: 3.5em; }
+  .masthead { gap: var(--s-4); padding: var(--s-3) var(--s-5); }
+  .masthead__title { font-size: 1.25rem; }
+  .masthead__sub { display: none; }
+  .nav { gap: var(--s-3); flex-wrap: wrap; }
+}

@@ -1,0 +1,13 @@
+---
+layout: default
+---
+
+{%- comment -%}
+  Generic page layout. Inherits default. Content lives in each .md file.
+  Pages with status: draft | teaser are intercepted in default.html and
+  render the coming-soon include instead.
+{%- endcomment -%}
+
+<article class="page-inner">
+  {{ content }}
+</article>
