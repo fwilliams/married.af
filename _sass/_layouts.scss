@@ -116,5 +116,5 @@
   .masthead { gap: var(--s-4); padding: var(--s-3) var(--s-5); }
   .masthead__title { font-size: 1.25rem; }
   .masthead__sub { display: none; }
-  .nav { gap: var(--s-3); flex-wrap: wrap; }
+  // .nav is hidden on mobile (see _components.scss); nav-toggle + nav-sheet take over.
 }

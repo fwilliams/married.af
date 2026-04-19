@@ -14,7 +14,6 @@ permalink: /
   <div class="hero-overlay" aria-hidden="true"></div>
 
   <div class="centerpiece">
-    {% include monogram.html size=56 class="monogram" %}
     <h1 class="names">Amanda <span class="amp">&amp;</span> Francis</h1>
     <div class="date-line">{{ site.wedding.date_long }} &middot; {{ site.wedding.location }}</div>
     <p class="tagline">A candlelit celebration, across a border and two summers in the making.</p>

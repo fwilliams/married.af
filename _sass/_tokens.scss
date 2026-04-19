@@ -78,8 +78,11 @@
   --ink-muted:   #978B7C;   // tier 3 — eyebrow/footer (~5.9:1)
 
   // ---- Burgundy (structural) ----
-  --gilt:        #5F1A26;
-  --gilt-bright: #8B2B3A;   // NOT for text
+  // #8B2B3A chosen over earlier #5F1A26 — same wine family, higher
+  // luminance, readable across the hero photo at small sizes (the & in
+  // the masthead brand and in the names). See "Ampersand pass" in plan.
+  --gilt:        #8B2B3A;
+  --gilt-bright: #AE3A4B;   // hover / flash accents — NOT for text
   --rule:        rgba(139, 43, 58, 0.45);
 
   // ---- Metallic (ornamental + interactive) ----

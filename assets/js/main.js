@@ -65,6 +65,72 @@
     update();
   })();
 
+  // -------- Mobile nav sheet (toggle / close / Esc / focus) --------
+  (function navSheet() {
+    var toggle = document.getElementById('nav-toggle');
+    var sheet  = document.getElementById('nav-sheet');
+    var close  = document.getElementById('nav-close');
+    if (!toggle || !sheet) return;
+
+    var lastFocus = null;
+
+    function openSheet() {
+      lastFocus = document.activeElement;
+      sheet.classList.add('is-open');
+      sheet.setAttribute('aria-hidden', 'false');
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.classList.add('menu-open');
+      // Move focus into the sheet (first link)
+      var first = sheet.querySelector('a, button');
+      if (first) first.focus();
+    }
+    function closeSheet() {
+      sheet.classList.remove('is-open');
+      sheet.setAttribute('aria-hidden', 'true');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('menu-open');
+      // Return focus to the trigger
+      if (lastFocus && typeof lastFocus.focus === 'function') {
+        lastFocus.focus();
+      } else {
+        toggle.focus();
+      }
+    }
+
+    toggle.addEventListener('click', function () {
+      if (toggle.getAttribute('aria-expanded') === 'true') closeSheet();
+      else openSheet();
+    });
+    if (close) close.addEventListener('click', closeSheet);
+
+    // Esc closes; also Tab cycles within the sheet (simple focus trap)
+    document.addEventListener('keydown', function (e) {
+      if (!sheet.classList.contains('is-open')) return;
+      if (e.key === 'Escape') { e.preventDefault(); closeSheet(); return; }
+      if (e.key === 'Tab') {
+        var focusables = sheet.querySelectorAll('a, button');
+        if (!focusables.length) return;
+        var first = focusables[0];
+        var last  = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    // Clicking a link closes the sheet before navigation (snappier UX on fast pages)
+    sheet.querySelectorAll('.nav-sheet__list a').forEach(function (a) {
+      a.addEventListener('click', closeSheet);
+    });
+
+    // Close if window grows past the mobile breakpoint while sheet is open
+    var mq = window.matchMedia('(min-width: 721px)');
+    if (mq.addEventListener) {
+      mq.addEventListener('change', function (e) {
+        if (e.matches && sheet.classList.contains('is-open')) closeSheet();
+      });
+    }
+  })();
+
   // -------- Scroll-triggered reveal --------
   (function onScrollReveal() {
     var targets = document.querySelectorAll('.on-scroll');

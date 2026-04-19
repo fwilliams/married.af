@@ -42,9 +42,6 @@ gate:
 analytics:
   ga4_id: ""
 
-# Seasonal content branching for /montreal
-season: "summer"   # summer | winter
-
 # Build settings
 permalink: pretty
 exclude:
@@ -54,6 +51,7 @@ exclude:
   - LICENSE
   - DESIGN_REVIEW.md
   - PALETTE_EXPLORATIONS.md
+  - TYPOGRAPHY_AUDIT.md
   - mockups/
   - node_modules/
   - vendor/

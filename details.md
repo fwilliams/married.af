@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Details
-seo_title: Details
+title: Event Details
+seo_title: Event Details
 description: Venue, schedule, dress code, and everything you need for the weekend.
 status: draft
 permalink: /details/

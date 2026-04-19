@@ -43,19 +43,10 @@
 }
 .masthead__brand:hover { opacity: 1; }
 .masthead__brand:focus-visible { opacity: 1; outline: none; }
-.masthead__brand:focus-visible .masthead__mark {
+.masthead__brand:focus-visible .masthead__text {
   outline: 2px solid var(--metallic);
   outline-offset: 4px;
-  border-radius: 50%;
-}
-
-.masthead__mark {
-  width: 32px;
-  height: 32px;
-  color: var(--metallic);
-  opacity: 0.95;
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
-  flex: 0 0 auto;
+  border-radius: 2px;
 }
 
 .masthead__text {
@@ -74,11 +65,17 @@
   letter-spacing: 0.01em;
   line-height: 1;
 }
+// The & is pulled tight against A and F with a negative margin, and lifted
+// above them with z-index so the letter stems appear to pass behind it —
+// a monogram-style ligature rather than a jammed comma.
 .masthead__title em {
   font-style: italic;
   font-weight: var(--w-regular);
   color: var(--gilt);
-  padding: 0 0.08em;
+  padding: 0;
+  margin: 0 -0.48em;
+  position: relative;
+  z-index: 2;
 }
 
 .masthead__sub {
@@ -89,7 +86,6 @@
   line-height: var(--lh-label);
   text-transform: uppercase;
   color: var(--ink-muted);
-  padding-left: var(--tracking-label);
   opacity: 0.85;
   max-height: 1em;
   overflow: hidden;
@@ -155,12 +151,6 @@
   align-items: center;
   gap: var(--s-4);
 }
-.footer__monogram {
-  width: 28px;
-  height: 28px;
-  color: var(--metallic);
-  opacity: 0.75;
-}
 .footer__line {
   font-family: var(--type-caps);
   font-weight: var(--w-medium);
@@ -178,7 +168,7 @@
 }
 .footer__line a:hover { border-bottom-color: var(--metallic); }
 
-// Centerpiece — monogram → names → date → tagline → closing mark
+// Centerpiece — names → date → tagline → closing mark
 .centerpiece {
   flex: 1;
   display: flex;
@@ -188,13 +178,6 @@
   text-align: center;
   gap: var(--s-5);
   padding: var(--s-8) 0;
-}
-.monogram {
-  width: 56px;
-  height: 56px;
-  color: var(--metallic);
-  opacity: 0.95;
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
 }
 .names {
   font-family: var(--type-display);
@@ -367,3 +350,147 @@
   color: var(--ink-muted);
   max-width: 44ch;
 }
+
+
+// =============================================================
+//   MOBILE NAV — "MENU" text toggle + full-viewport sheet
+// =============================================================
+
+// Toggle button (small-caps text + metallic dash). Editorial, not a hamburger.
+.nav-toggle {
+  display: none;                    // hidden on desktop; shown < 720px
+  grid-column: 3;
+  align-items: center;
+  gap: var(--s-2);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: var(--s-1) 0;
+  color: var(--ink);                // tier 1
+
+  font-family: var(--type-caps);
+  font-weight: var(--w-medium);
+  font-size: var(--ts-label-md);
+  letter-spacing: var(--tracking-label);
+  line-height: var(--lh-label);
+  text-transform: uppercase;
+
+  // Matches masthead/nav text-shadow for readability over photo
+  text-shadow: 0 1px 2px rgba(20, 17, 15, 0.85), 0 2px 24px rgba(20, 17, 15, 0.55);
+
+  transition: opacity var(--t-fast) var(--ease-std);
+}
+.nav-toggle__label {
+  padding-left: var(--tracking-label);  // centers letter-spaced text
+}
+.nav-toggle__mark {
+  display: inline-block;
+  width: 18px;
+  height: var(--mark-stroke);
+  background: var(--metallic);
+  opacity: var(--mark-op-ornamental);
+  transition: width var(--t-fast) var(--ease-std);
+}
+.nav-toggle__mark--before {
+  margin-right: var(--s-2);
+}
+.nav-toggle:hover,
+.nav-toggle:focus-visible { outline: none; opacity: 0.9; }
+.nav-toggle:hover .nav-toggle__mark,
+.nav-toggle:focus-visible .nav-toggle__mark { width: 24px; }
+.nav-toggle:focus-visible {
+  outline: 2px solid var(--metallic);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+// Full-viewport nav sheet
+.nav-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 60;                      // above masthead (50)
+  display: flex;
+  flex-direction: column;
+  background: color-mix(in srgb, var(--base) 96%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity    var(--t-med) var(--ease-std),
+              transform  var(--t-med) var(--ease-std),
+              visibility 0s linear    var(--t-med);
+}
+.nav-sheet.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity    var(--t-med) var(--ease-std),
+              transform  var(--t-med) var(--ease-std),
+              visibility 0s linear    0s;
+}
+
+.nav-sheet__head {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--s-4) var(--s-5);
+}
+
+.nav-sheet__list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-6);
+  padding: var(--s-5);
+}
+.nav-sheet__list a {
+  position: relative;
+  padding: var(--s-1) 2px;
+  font-family: var(--type-caps);
+  font-weight: var(--w-medium);
+  font-size: var(--ts-label-lg);
+  letter-spacing: var(--tracking-label);
+  line-height: var(--lh-label);
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  padding-left: var(--tracking-label);
+}
+.nav-sheet__list a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: var(--mark-stroke);
+  background: var(--metallic);
+  opacity: var(--mark-op-ornamental);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--t-fast) var(--ease-std);
+}
+.nav-sheet__list a:hover,
+.nav-sheet__list a:focus-visible { outline: none; }
+.nav-sheet__list a:hover::after,
+.nav-sheet__list a:focus-visible::after { transform: scaleX(1); }
+.nav-sheet__list a[aria-current="page"]::after {
+  transform: scaleX(1);
+  opacity: 0.6;
+}
+
+.nav-sheet__foot {
+  padding: var(--s-6) var(--s-5);
+  text-align: center;
+}
+
+// Responsive swap: desktop nav hidden, toggle visible, mobile-only
+@media (max-width: 720px) {
+  .nav         { display: none; }
+  .nav-toggle  { display: inline-flex; }
+}
+
+// Prevent body scroll while sheet is open (JS adds .menu-open to <body>)
+body.menu-open { overflow: hidden; }

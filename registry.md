@@ -1,10 +1,10 @@
 ---
 layout: default
-title: Gifts
-seo_title: Gifts
+title: Registry
+seo_title: Registry
 description: A private page for those who would like to send a gift.
 status: draft
-permalink: /gifts/
+permalink: /registry/
 noindex: true
 sitemap: false
 noanalytics: true

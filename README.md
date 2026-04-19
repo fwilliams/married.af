@@ -41,12 +41,12 @@ token system. Short version:
 - `_sass/` — design tokens, base, components, layouts, motion, print. Split by
   concern. Assembled via `assets/css/style.scss`.
 - `_layouts/default.html` — the page shell (masthead, main, footer).
-- `_includes/` — componentised partials (masthead, footer, monogram SVG,
+- `_includes/` — componentised partials (masthead, footer,
   seo-meta, coming-soon empty state, analytics).
 - `_plugins/liquid_ruby4_shim.rb` — no-op shim for modern Ruby compatibility
   with the Liquid version pinned by `github-pages`.
 - `index.md` — the landing page.
-- `story.md`, `details.md`, `montreal.md`, `rsvp.md`, `gifts.md` — content
+- `story.md`, `details.md`, `rsvp.md`, `registry.md` — content
   pages. Each has `status:` front matter: `draft | teaser | live`. Non-live
   pages render as a styled "Coming soon" state.
 

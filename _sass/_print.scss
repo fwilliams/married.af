@@ -1,5 +1,5 @@
 // Print styles — light background, dark text, inline link URLs.
-// Keeps /details and /montreal useful when guests print travel info.
+// Keeps content pages (e.g. /details) useful when guests print info.
 
 @media print {
   * { color: #000 !important; background: #fff !important; }
