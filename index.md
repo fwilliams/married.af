@@ -16,7 +16,7 @@ permalink: /
   <div class="centerpiece">
     <h1 class="names">Amanda <span class="amp">&amp;</span> Francis</h1>
     <div class="date-line">{{ site.wedding.date_long }} &middot; {{ site.wedding.location }}</div>
-    <p class="tagline">A candlelit celebration, across a border and two summers in the making.</p>
+    <p class="tagline">An evening of candlelight, music, and the people we love.</p>
     <div class="hairline"></div>
   </div>
 
@@ -37,7 +37,7 @@ permalink: /
       <div class="label-md">I &middot; A Note From Us</div>
       <blockquote class="pull-quote">
         <span class="pull-quote__mark" aria-hidden="true">&ldquo;</span>
-        We can&rsquo;t wait to celebrate with you in the city that helped us fall a little harder.
+        We can&rsquo;t wait to celebrate with you. More to come.
       </blockquote>
       <div class="hairline hairline--minor"></div>
       <p class="body-copy">This site will grow as we finalize the weekend &mdash; venue, schedule, travel notes, and everything you&rsquo;ll need to join us in Montr&eacute;al. Check back as the date approaches.</p>
