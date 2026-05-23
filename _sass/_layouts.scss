@@ -40,7 +40,7 @@
   // Desktop framing tunable via --desktop-bg-* custom properties (dev only).
   // Production defaults: cover, center, 18% from top.
   background-size: var(--desktop-bg-size, cover);
-  background-position: var(--desktop-bg-x, 50%) var(--desktop-bg-y, 18%);
+  background-position: var(--desktop-bg-x, 50%) var(--desktop-bg-y, 32%);
   filter: var(--photo-filter);
   transform: scale(1.02);
   transition: filter 600ms var(--ease-std);
