@@ -28,7 +28,7 @@ wedding:
   date_short: "August 7, 2027"               # short form for OG/meta
   masthead_sub: "Married · MMXXVII"        # short ornamental sub-mark below the A & F monogram
   location: "Montréal"
-  venue: "Crew Collective & Café"            # former Royal Bank of Canada, Old Montréal
+  venue: "Crew Collective"            # former Royal Bank of Canada, Old Montréal
   address: "360 Rue Saint-Jacques, Montréal" # fill in if you want full address rendered
   rsvp_deadline: ""                          # fill in when set
   contact_email: "hello@married.af"          # placeholder
