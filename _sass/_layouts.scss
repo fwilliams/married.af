@@ -36,9 +36,9 @@
   right: -40px;
   left: -40px;
   bottom: var(--hero-photo-bottom, -50vh);
-  background-image: var(--hero-photo, url('/assets/engagement_pic.jpg'));
+  background-image: var(--hero-photo, url('/assets/we_r_pretty.jpg'));
   background-size: cover;
-  background-position: center 38%;
+  background-position: center 18%;
   filter: var(--photo-filter);
   transform: scale(1.02);
   transition: filter 600ms var(--ease-std);
@@ -145,12 +145,14 @@
 
 
 // Hero photo focal point — mobile reframing.
-// Default center 38% shows the wide mountain context on desktop but
-// crops Amanda out of a portrait viewport. Shift the horizontal anchor
-// right so both faces sit inside the cover-crop on narrow widths.
+// Portrait photo's faces sit in the upper third. On a tall portrait
+// viewport, the photo is width-cropped horizontally but the parallax
+// vertical buffer can push faces below the fold. Anchor higher on mobile.
 @media (max-width: 720px) {
-  .hero-photo { background-position: 70% 55%; }
-}
-@media (max-width: 420px) {
-  .hero-photo { background-position: 72% 60%; }
+  .hero-photo {
+    // Locked mobile framing: 115% zoom, 74% × 20% focal. Tunable in dev via
+    // --mobile-bg-* custom properties; defaults match production values.
+    background-size: var(--mobile-bg-size, 115%);
+    background-position: var(--mobile-bg-x, 74%) var(--mobile-bg-y, 20%);
+  }
 }

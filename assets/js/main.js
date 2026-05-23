@@ -44,7 +44,10 @@
 
     var ticking = false;
     function getFactor() {
-      return (window.__heroParallaxFactor != null) ? window.__heroParallaxFactor : 0.35;
+      if (window.__heroParallaxFactor != null) return window.__heroParallaxFactor;
+      // Mobile viewports get a much lighter parallax so the framed photo
+      // doesn't scroll its way out of the visible crop.
+      return window.matchMedia('(max-width: 720px)').matches ? 0.10 : 0.35;
     }
 
     function update() {
