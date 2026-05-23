@@ -41,7 +41,7 @@ permalink: /
       <div class="fact">
         <div class="fact__label">Where</div>
         <div class="fact__primary"><em>{{ site.wedding.venue }}</em></div>
-        <div class="fact__detail">In the former Royal Bank Hall &mdash; vaulted ceilings, marble floors, brass everywhere.</div>
+		<div class="fact__detail">Est. 1928</div>
       </div>
       <div class="facts__rule" aria-hidden="true"></div>
       <div class="fact">
