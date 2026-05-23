@@ -2,7 +2,8 @@
   <a class="masthead__brand" href="{{ '/' | relative_url }}" aria-label="Amanda and Francis — home">
     <span class="masthead__text">
       <span class="masthead__title">A <em>&amp;</em> F</span>
-      <span class="masthead__sub">{{ site.tagline }}</span>
+      <span class="masthead__sub" hidden>{{ site.wedding.masthead_sub | default: site.tagline }}</span>
+      <span class="masthead__mark" aria-hidden="true"></span>
     </span>
   </a>
 
@@ -51,6 +52,6 @@
     {%- endfor -%}
   </nav>
   <div class="nav-sheet__foot">
-    <span class="masthead__sub">{{ site.tagline }}</span>
+    <span class="masthead__sub">{{ site.wedding.masthead_sub | default: site.tagline }}</span>
   </div>
 </div>

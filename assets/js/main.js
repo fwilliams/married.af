@@ -32,8 +32,10 @@
   })();
 
   // -------- Hero parallax --------
-  // Subtle: hero photo moves at 35% of scroll speed while hero is on-screen.
-  // Paired with Ken Burns for layered motion. Disabled under reduced-motion.
+  // Subtle: hero photo moves at <factor>% of scroll speed while hero is on-screen.
+  // Factor is mutable at runtime via window.__heroParallaxFactor so the Tweaks
+  // panel can tune it live. Default 0.35. Paired with Ken Burns for layered
+  // motion. Disabled under reduced-motion.
   (function heroParallax() {
     if (reduceMotion) return;
     var hero = document.querySelector('.hero');
@@ -41,20 +43,27 @@
     if (!hero || !layer) return;
 
     var ticking = false;
-    var factor = 0.35;
+    function getFactor() {
+      return (window.__heroParallaxFactor != null) ? window.__heroParallaxFactor : 0.35;
+    }
 
     function update() {
       var heroRect = hero.getBoundingClientRect();
-      // Only drive parallax while the hero is in or near the viewport.
       if (heroRect.bottom < -200 || heroRect.top > window.innerHeight + 200) {
         ticking = false;
         return;
       }
-      var offset = window.scrollY * factor;
-      // Translate the parallax wrapper; Ken Burns runs independently on .hero-photo.
+      var offset = window.scrollY * getFactor();
       layer.style.transform = 'translate3d(0, ' + (-offset) + 'px, 0)';
       ticking = false;
     }
+    // Expose a way for the Tweaks panel to nudge an immediate update.
+    window.__heroParallaxUpdate = function () {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
 
     window.addEventListener('scroll', function () {
       if (!ticking) {

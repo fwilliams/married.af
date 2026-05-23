@@ -107,8 +107,9 @@ img, svg, video {
   max-width: 28ch;
 }
 
-// Selection
+// Selection — wedding-red oxblood, not brass. Reserves oxblood as a
+// quiet structural accent without splashing it on text/labels.
 ::selection {
-  background: var(--gilt);
+  background: var(--oxblood);
   color: var(--ink);
 }

@@ -67,38 +67,45 @@
   // ---- Shape ----
   --r-pill: 999px;
 
-  // ---- Surfaces ----
-  --base:  #14110F;   // Inkwell, near-black warm
-  --inset: #242120;   // elevated surface
-  --deep:  #0A0908;   // absolute dark (footer)
+  // ---- Surfaces (warmer, mahogany-leaning) ----
+  --base:  #15110D;   // warm near-black — coffered ceiling shadow
+  --inset: #23170F;   // elevated surface — deep cocoa
+  --deep:  #0A0705;   // absolute dark (footer)
 
-  // ---- Type tiers ----
-  --ink:         #EEE6D6;   // tier 1 — primary reading (~14:1)
-  --ink-whisper: #BFB5A4;   // tier 2 — subtitles/date  (~8.6:1)
-  --ink-muted:   #978B7C;   // tier 3 — eyebrow/footer (~5.9:1)
+  // ---- Type tiers (travertine cream, not cool ivory) ----
+  --ink:         #F1E6CC;   // travertine — primary reading
+  --ink-whisper: #C8B596;   // aged paper — subtitles
+  --ink-muted:   #998260;   // muted brass — eyebrow/footer
 
-  // ---- Burgundy (structural) ----
-  // #8B2B3A chosen over earlier #5F1A26 — same wine family, higher
-  // luminance, readable across the hero photo at small sizes (the & in
-  // the masthead brand and in the names). See "Ampersand pass" in plan.
-  --gilt:        #8B2B3A;
-  --gilt-bright: #AE3A4B;   // hover / flash accents — NOT for text
-  --rule:        rgba(139, 43, 58, 0.45);
+  // ---- Signature accent: burnished brass ----
+  // Mirrors the brass chandeliers + gold-plated bronze wickets of the
+  // former Royal Bank teller hall. Replaces the previous raspberry-red,
+  // which read cool/pink and fought the venue.
+  --gilt:        #B5894A;
+  --gilt-bright: #D4A55C;
+  --rule:        rgba(181, 137, 74, 0.42);
 
-  // ---- Metallic (ornamental + interactive) ----
-  --metallic:    #D4C29A;   // Champagne
-  --metallic-hi: #E8D9B8;
+  // ---- Oxblood: painted-plaster red ----
+  // Used as a structural surface accent — selection bg, deep cards,
+  // anywhere we want the room's red-plaster ceiling to peek through.
+  --oxblood:      #5E1F22;
+  --oxblood-deep: #3A1316;
+  // Luminous oxblood for text/labels — passes contrast on the dark base.
+  --oxblood-light: #A02E33;
+  --oxblood-glow:  rgba(160, 46, 51, 0.55);
+
+  // ---- Metallic (alias of brass for ornamental + interactive bits) ----
+  --metallic:    #C99C5A;
+  --metallic-hi: #E2BA77;
 
   // ---- Hero photo grading ----
-  // Photo is a SUBTLE atmospheric backdrop, not a dominant composition.
-  // Names are the hero; photo provides warmth + texture underneath.
-  --overlay-top: rgba(20, 17, 15, 0.58);
-  --overlay-mid: rgba(20, 17, 15, 0.48);
-  --overlay-bot: rgba(20, 17, 15, 0.95);
-  // Atmospheric wash: photo is a warm ember glow behind the type, not a
-  // portrait competing with the names. Low brightness + saturated sepia
-  // pushes the snow-and-puffer-jacket photo into a candlelit tone.
-  --photo-filter: brightness(0.45) contrast(1.12) saturate(0.72) sepia(0.38) hue-rotate(-14deg);
+  // Less sepia, warmer push, more contrast — candlelit interior, not
+  // wintry alpine memoir. Layered with oxblood-tinted top vignette + a
+  // soft brass-warm glow rising from the bottom (candlelight from below).
+  --overlay-top: rgba(38, 18, 14, 0.60);
+  --overlay-mid: rgba(20, 14, 11, 0.44);
+  --overlay-bot: rgba(10, 7, 5, 0.96);
+  --photo-filter: brightness(0.42) contrast(1.22) saturate(0.88) sepia(0.20) hue-rotate(-4deg);
 
   // ---- Browser UI integration ----
   color-scheme: dark;
