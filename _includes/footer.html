@@ -1,7 +1,14 @@
 <footer class="footer" role="contentinfo">
-  <span class="footer__rule" aria-hidden="true"></span>
   <div class="footer__sig"><em>married.af</em></div>
-  <div class="footer__address">{{ site.wedding.venue }} &middot; {{ site.wedding.address | default: "360 Rue Saint-Jacques" }} &middot; Old Montr&eacute;al</div>
+  <div class="footer__count" id="countdown" data-target="{{ site.wedding.datetime_iso }}" data-duration="{{ site.wedding.duration_hours | default: 10 }}" role="timer" aria-label="Time until the wedding">
+    <span class="footer__count-num" data-unit="days">&mdash;</span> Days
+    <span class="footer__count-sep" aria-hidden="true">&middot;</span>
+    <span class="footer__count-num" data-unit="hours">&mdash;</span> Hours
+    <span class="footer__count-sep" aria-hidden="true">&middot;</span>
+    <span class="footer__count-num" data-unit="minutes">&mdash;</span> Minutes
+    <span class="footer__count-sep" aria-hidden="true">&middot;</span>
+    <span class="footer__count-num" data-unit="seconds">&mdash;</span> Seconds
+  </div>
   {% if site.wedding.contact_email and site.wedding.contact_email != "" %}
   <div class="footer__contact">Questions? <a href="mailto:{{ site.wedding.contact_email }}">{{ site.wedding.contact_email }}</a></div>
   {% endif %}

@@ -162,4 +162,94 @@
     targets.forEach(function (t) { io.observe(t); });
   })();
 
+  // -------- Section parallax (generic; honors reduced-motion) --------
+  // Any [data-parallax="N"] element drifts at intensity N against scroll.
+  (function sectionParallax() {
+    if (reduceMotion) return;
+    var items = [].slice.call(document.querySelectorAll('[data-parallax]'));
+    if (!items.length) return;
+    var ticking = false;
+    function update() {
+      var vh = window.innerHeight;
+      for (var i = 0; i < items.length; i++) {
+        var el = items[i];
+        var rect = el.getBoundingClientRect();
+        if (rect.bottom < -200 || rect.top > vh + 200) continue;
+        var center = rect.top + rect.height / 2;
+        var delta = (center - vh / 2) / vh;
+        var speed = parseFloat(el.getAttribute('data-parallax')) || 0.1;
+        el.style.transform = 'translate3d(0,' + (delta * speed * -100).toFixed(2) + 'px,0)';
+      }
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () { if (!ticking) { requestAnimationFrame(update); ticking = true; } }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  })();
+
+  // -------- Countdown (Days / Hours / Minutes / Seconds) --------
+  (function countdown() {
+    var grid = document.getElementById('countdown');
+    if (!grid) return;
+    var target = new Date(grid.dataset.target).getTime();
+    if (isNaN(target)) return;
+    var els = {
+      days:    grid.querySelector('[data-unit="days"]'),
+      hours:   grid.querySelector('[data-unit="hours"]'),
+      minutes: grid.querySelector('[data-unit="minutes"]'),
+      seconds: grid.querySelector('[data-unit="seconds"]')
+    };
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function tick() {
+      var diff = target - Date.now();
+      if (diff <= 0) {
+        els.days.textContent = '0'; els.hours.textContent = '00'; els.minutes.textContent = '00';
+        if (els.seconds) els.seconds.textContent = '00';
+        return;
+      }
+      var s = Math.floor(diff / 1000);
+      els.days.textContent    = Math.floor(s / 86400);
+      els.hours.textContent   = pad(Math.floor((s % 86400) / 3600));
+      els.minutes.textContent = pad(Math.floor((s % 3600) / 60));
+      if (els.seconds) els.seconds.textContent = pad(s % 60);
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+  // -------- Add to Calendar — universal .ics (Apple / Google / Outlook) --------
+  (function addToCalendar() {
+    var links = [document.getElementById('addToCal'), document.getElementById('saveTheDate')].filter(Boolean);
+    var cd = document.getElementById('countdown');
+    if (!links.length || !cd) return;
+    var start = new Date(cd.dataset.target);
+    if (isNaN(start.getTime())) return;
+    var hours = parseInt(cd.dataset.duration, 10) || 10;   // 5 PM → 3 AM
+    var end = new Date(start.getTime() + hours * 3600 * 1000);
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function fmt(d) {
+      return d.getUTCFullYear() + pad(d.getUTCMonth() + 1) + pad(d.getUTCDate()) + 'T' +
+             pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + '00Z';
+    }
+    var ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//married.af//Amanda & Francis//EN',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH',
+      'BEGIN:VEVENT',
+      'UID:amanda-francis-2027@married.af',
+      'DTSTAMP:' + fmt(new Date()),
+      'DTSTART:' + fmt(start),
+      'DTEND:' + fmt(end),
+      'SUMMARY:Amanda & Francis — Wedding',
+      'DESCRIPTION:An evening of candlelight, music, and the people we love. married.af',
+      'LOCATION:Crew Collective\\, 360 Rue Saint-Jacques\\, Old Montréal\\, QC',
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
+    var href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+    links.forEach(function (a) { a.href = href; });
+  })();
+
 })();

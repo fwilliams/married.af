@@ -26,6 +26,8 @@ wedding:
   date_year: "2027"                          # numeric year for inline date-line
   year_long: "Two Thousand Twenty-Seven"     # year spelled out, italic display
   date_short: "August 7, 2027"               # short form for OG/meta
+  datetime_iso: "2027-08-07T17:00:00-04:00"   # ceremony start, Montréal (EDT). Drives the count + calendar.
+  duration_hours: 10                           # 5 PM → 3 AM. Sets the calendar end time.
   masthead_sub: "Married · MMXXVII"        # short ornamental sub-mark below the A & F monogram
   location: "Montréal"
   venue: "Crew Collective"            # former Royal Bank of Canada, Old Montréal

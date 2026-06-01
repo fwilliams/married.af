@@ -21,16 +21,16 @@ permalink: /
   </div>
 
   <div class="teaser">
-    <div class="teaser-label">Save the Date</div>
+    <a class="teaser-label" id="saveTheDate" href="#" download="amanda-and-francis.ics">Save the Date</a>
     <div class="teaser-line">More details arriving as the weekend takes shape.</div>
+    <span class="vein" aria-hidden="true"></span>
   </div>
 </section>
 
 
 
 <section class="facts on-scroll">
-  <div class="facts__inner">
-    <div class="facts__chapter"><span class="label-md">II &middot; The Day</span></div>
+  <div class="facts__inner" data-parallax="0.26">
     <div class="facts__grid">
       <div class="fact">
         <div class="fact__label">When</div>
@@ -49,6 +49,9 @@ permalink: /
         <div class="fact__primary">360 Rue Saint-Jacques</div>
         <div class="fact__detail">Old Montr&eacute;al &middot; Qu&eacute;bec</div>
       </div>
+    </div>
+    <div class="facts__foot">
+      <a class="cal" id="addToCal" href="#" download="amanda-and-francis.ics">Add to Calendar</a>
     </div>
   </div>
 </section>

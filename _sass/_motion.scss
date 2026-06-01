@@ -11,6 +11,14 @@
   to   { opacity: 1; }
 }
 
+// Scroll-cue ember — fades in, falls --mark-vein-h, and vanishes.
+@keyframes emberFall {
+  0%   { transform: translateX(-50%) translateY(-2px); opacity: 0; }
+  18%  { opacity: 1; }
+  82%  { opacity: 0.9; }
+  100% { transform: translateX(-50%) translateY(calc(var(--mark-vein-h) + 4px)); opacity: 0; }
+}
+
 // Intro fade-up REMOVED.
 // Earlier revisions staggered opacity 0 -> 1 on load with fill: both, which
 // meant if anything delayed the animation (slow font load, browser pauses,
