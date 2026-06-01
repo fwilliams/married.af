@@ -12,9 +12,10 @@
 .hero {
   position: relative;
   min-height: 100vh;
+  min-height: 100svh;   // mobile Safari: exclude the toolbar so the bottom cue stays visible
   display: flex;
   flex-direction: column;
-  padding: var(--s-6) var(--s-6) var(--s-5);
+  padding: var(--s-6) var(--s-6) calc(var(--s-5) + env(safe-area-inset-bottom));
   overflow: hidden;
 }
 // Parallax wrapper — JS translates this on scroll (~35% of scroll speed).

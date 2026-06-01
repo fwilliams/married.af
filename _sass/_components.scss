@@ -356,7 +356,7 @@
   background: var(--rule);
   opacity: 1;
 }
-// Scroll-cue — a soft brass "ember" fades in, falls, and vanishes.
+// Scroll-cue — a small brass triangle that falls, points the eye down, and fades.
 // Used in the hero teaser and the coming-soon empty state.
 .vein {
   position: relative;
@@ -369,15 +369,13 @@
   position: absolute;
   left: 50%;
   top: 0;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 7px solid var(--metallic-hi);
   transform: translateX(-50%);
-  background: radial-gradient(circle,
-    var(--metallic-hi) 0%,
-    color-mix(in srgb, var(--metallic) 70%, transparent) 45%,
-    transparent 75%);
-  box-shadow: 0 0 9px 1px color-mix(in srgb, var(--metallic-hi) 60%, transparent);
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--metallic-hi) 55%, transparent));
   animation: emberFall 3.6s var(--ease-std) infinite;
 }
 
