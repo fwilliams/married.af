@@ -8,3 +8,4 @@ Gemfile.lock
 assets/shots/
 _plugins/*.rb.bak
 assets/shots-*/
+.DS_Store
