@@ -16,12 +16,12 @@ permalink: /
   <div class="centerpiece">
     <h1 class="names"><span class="names__word">Amanda</span> <span class="amp">&amp;</span> <span class="names__word">Francis</span></h1>
     <div class="date-line">{{ site.wedding.date_long }} &middot; {{ site.wedding.date_year }} &middot; {{ site.wedding.location }}</div>
-    <p class="tagline">An evening of candlelight, music, and the people we love.</p>
+    <p class="tagline">A candlelit celebration with the people we love</p>
     <div class="hairline"></div>
   </div>
 
   <div class="teaser">
-    <a class="teaser-label" id="saveTheDate" href="#" download="amanda-and-francis.ics">Save the Date</a>
+    <a class="teaser-label" id="saveTheDate" href="#" aria-haspopup="dialog" aria-controls="cal-modal">Save the Date</a>
     <div class="teaser-line">More details arriving as the weekend takes shape.</div>
     <span class="vein" aria-hidden="true"></span>
   </div>
@@ -30,7 +30,7 @@ permalink: /
 
 
 <section class="facts on-scroll">
-  <div class="facts__inner" data-parallax="0.26">
+  <div class="facts__inner">
     <div class="facts__grid">
       <div class="fact">
         <div class="fact__label">When</div>
@@ -51,7 +51,7 @@ permalink: /
       </div>
     </div>
     <div class="facts__foot">
-      <a class="cal" id="addToCal" href="#" download="amanda-and-francis.ics">Add to Calendar</a>
+      <a class="cal" id="addToCal" href="#" aria-haspopup="dialog" aria-controls="cal-modal">Add to Calendar</a>
     </div>
   </div>
 </section>

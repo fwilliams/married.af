@@ -218,19 +218,38 @@
   })();
 
   // -------- Add to Calendar — universal .ics (Apple / Google / Outlook) --------
+  // -------- Add to Calendar — chooser modal (Google / Apple / Outlook / Office 365 / Yahoo) --------
+  // There is no single universal "add to my calendar" link: Google/Outlook/Yahoo
+  // each take their own pre-filled web URL, and Apple Calendar can only ingest an
+  // .ics file. So we offer a chooser and build the right link per service from one
+  // source of truth (the countdown's target + duration).
   (function addToCalendar() {
-    var links = [document.getElementById('addToCal'), document.getElementById('saveTheDate')].filter(Boolean);
+    var triggers = [document.getElementById('addToCal'), document.getElementById('saveTheDate')].filter(Boolean);
+    var modal = document.getElementById('cal-modal');
     var cd = document.getElementById('countdown');
-    if (!links.length || !cd) return;
+    if (!triggers.length || !modal || !cd) return;
+
     var start = new Date(cd.dataset.target);
     if (isNaN(start.getTime())) return;
     var hours = parseInt(cd.dataset.duration, 10) || 10;   // 5 PM → 3 AM
     var end = new Date(start.getTime() + hours * 3600 * 1000);
+
+    var TITLE    = 'Amanda & Francis — Wedding';
+    var DETAILS  = 'A candlelit celebration with the people we love. married.af';
+    var LOCATION = 'Crew Collective, 360 Rue Saint-Jacques, Old Montréal, QC';
+
+    var e = encodeURIComponent;
     function pad(n) { return (n < 10 ? '0' : '') + n; }
-    function fmt(d) {
+    // Compact UTC stamp YYYYMMDDTHHMMSSZ — Google, Yahoo, and the .ics body.
+    function stamp(d) {
       return d.getUTCFullYear() + pad(d.getUTCMonth() + 1) + pad(d.getUTCDate()) + 'T' +
-             pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + '00Z';
+             pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + pad(d.getUTCSeconds()) + 'Z';
     }
+    // ISO-8601 UTC without milliseconds — Outlook / Office 365 deeplinks.
+    function iso(d) { return d.toISOString().replace(/\.\d{3}Z$/, 'Z'); }
+    // RFC 5545 text escaping for the .ics fields.
+    function esc(s) { return String(s).replace(/[\\,;]/g, '\\$&').replace(/\n/g, '\\n'); }
+
     var ics = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
@@ -239,17 +258,98 @@
       'METHOD:PUBLISH',
       'BEGIN:VEVENT',
       'UID:amanda-francis-2027@married.af',
-      'DTSTAMP:' + fmt(new Date()),
-      'DTSTART:' + fmt(start),
-      'DTEND:' + fmt(end),
-      'SUMMARY:Amanda & Francis — Wedding',
-      'DESCRIPTION:An evening of candlelight, music, and the people we love. married.af',
-      'LOCATION:Crew Collective\\, 360 Rue Saint-Jacques\\, Old Montréal\\, QC',
+      'DTSTAMP:' + stamp(new Date()),
+      'DTSTART:' + stamp(start),
+      'DTEND:' + stamp(end),
+      'SUMMARY:' + esc(TITLE),
+      'DESCRIPTION:' + esc(DETAILS),
+      'LOCATION:' + esc(LOCATION),
       'END:VEVENT',
       'END:VCALENDAR'
     ].join('\r\n');
-    var href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
-    links.forEach(function (a) { a.href = href; });
+    var icsHref = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+
+    var compose = 'path=/calendar/action/compose&rru=addevent';
+    var hrefs = {
+      'cal-google': 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+        '&text=' + e(TITLE) + '&dates=' + stamp(start) + '/' + stamp(end) +
+        '&details=' + e(DETAILS) + '&location=' + e(LOCATION),
+      'cal-apple': icsHref,
+      'cal-outlook': 'https://outlook.live.com/calendar/0/deeplink/compose?' + compose +
+        '&subject=' + e(TITLE) + '&startdt=' + e(iso(start)) + '&enddt=' + e(iso(end)) +
+        '&body=' + e(DETAILS) + '&location=' + e(LOCATION),
+      'cal-office365': 'https://outlook.office.com/calendar/0/deeplink/compose?' + compose +
+        '&subject=' + e(TITLE) + '&startdt=' + e(iso(start)) + '&enddt=' + e(iso(end)) +
+        '&body=' + e(DETAILS) + '&location=' + e(LOCATION),
+      'cal-yahoo': 'https://calendar.yahoo.com/?v=60&title=' + e(TITLE) +
+        '&st=' + stamp(start) + '&et=' + stamp(end) +
+        '&desc=' + e(DETAILS) + '&in_loc=' + e(LOCATION)
+    };
+    Object.keys(hrefs).forEach(function (id) {
+      var a = document.getElementById(id);
+      if (!a) return;
+      a.href = hrefs[id];
+      if (id === 'cal-apple') a.setAttribute('download', 'amanda-and-francis.ics');
+    });
+
+    // ---- Modal open / close (mirrors navSheet) ----
+    var closeBtn = document.getElementById('cal-modal-close');
+    var lastFocus = null;
+    function openModal() {
+      lastFocus = document.activeElement;
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('cal-open');
+      if (closeBtn) closeBtn.focus();
+    }
+    function closeModal() {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('cal-open');
+      if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
+    }
+
+    triggers.forEach(function (t) {
+      t.setAttribute('aria-haspopup', 'dialog');
+      t.addEventListener('click', function (ev) { ev.preventDefault(); openModal(); });
+    });
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    // Click on the backdrop (outside the card) closes.
+    modal.addEventListener('click', function (ev) { if (ev.target === modal) closeModal(); });
+    // Picking a calendar closes the chooser once the link has fired.
+    modal.querySelectorAll('.cal-opt').forEach(function (a) {
+      a.addEventListener('click', function () { window.setTimeout(closeModal, 0); });
+    });
+    // Esc closes; Tab cycles within the modal (simple focus trap).
+    document.addEventListener('keydown', function (ev) {
+      if (!modal.classList.contains('is-open')) return;
+      if (ev.key === 'Escape') { ev.preventDefault(); closeModal(); return; }
+      if (ev.key === 'Tab') {
+        var f = modal.querySelectorAll('a, button');
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (ev.shiftKey && document.activeElement === first) { ev.preventDefault(); last.focus(); }
+        else if (!ev.shiftKey && document.activeElement === last) { ev.preventDefault(); first.focus(); }
+      }
+    });
+  })();
+
+  // -------- Footer staggered reveal (replays on scroll-back) --------
+  (function footerReveal() {
+    var footer = document.querySelector('.footer[data-reveal]');
+    if (!footer) return;
+    // No JS-animation path → show everything, skip the hidden state entirely.
+    if (reduceMotion || !('IntersectionObserver' in window)) { footer.classList.add('is-revealed'); return; }
+    footer.classList.add('is-armed'); // enables the CSS hidden start state
+    function replayOn() { return document.documentElement.dataset.footReplay !== '0'; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.intersectionRatio >= 0.18) footer.classList.add('is-revealed');
+        else if (!e.isIntersecting && replayOn()) footer.classList.remove('is-revealed');
+        // partially visible (0–18%): hold current state (hysteresis)
+      });
+    }, { threshold: [0, 0.18] });
+    io.observe(footer);
   })();
 
 })();

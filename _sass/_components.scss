@@ -339,7 +339,8 @@
   font-size: var(--ts-subtitle);
   line-height: var(--lh-read);
   color: var(--ink-whisper);
-  max-width: 34ch;
+  max-width: none;
+  text-wrap: balance;   // one line on desktop; wraps evenly only if a screen is too narrow
   text-align: center;
   text-shadow: 0 1px 2px rgba(20, 17, 15, 0.85), 0 2px 24px rgba(20, 17, 15, 0.55);
 }
@@ -669,7 +670,7 @@ body.menu-open { overflow: hidden; }
 //   block, establishing chapter rhythm.
 // =============================================================
 .facts {
-  padding: var(--s-9) var(--s-6);
+  padding: var(--s-8) var(--s-6);   // symmetric top/bottom — balanced now the parallax drift is gone
   background: var(--inset);
   border-top: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
@@ -908,4 +909,188 @@ body.menu-open { overflow: hidden; }
 
 @media (max-width: 560px) {
   .footer__count { letter-spacing: 0.12em; white-space: normal; line-height: 2; }
+}
+
+// =============================================================
+//   FOOTER — staggered reveal (married.af on its own clock)
+//   Hidden start state gated on .is-armed, which the JS only adds
+//   when it can actually animate — so no-JS / reduced-motion / print
+//   render the footer fully visible with zero entrance.
+// =============================================================
+@media (prefers-reduced-motion: no-preference) {
+  .footer[data-reveal].is-armed .footer__sig,
+  .footer[data-reveal].is-armed .footer__count,
+  .footer[data-reveal].is-armed .footer__contact,
+  .footer[data-reveal].is-armed .footer__copyright {
+    opacity: 0;
+    will-change: opacity, transform;
+    transition: opacity var(--t-slow) var(--ease-std),
+                transform var(--t-slow) var(--ease-std);
+  }
+  // supporting text — quiet rise, lightly staggered among itself
+  .footer[data-reveal].is-armed .footer__count     { transform: translateY(14px); transition-delay: var(--foot-other-delay); }
+  .footer[data-reveal].is-armed .footer__contact   { transform: translateY(14px); transition-delay: calc(var(--foot-other-delay) + 90ms); }
+  .footer[data-reveal].is-armed .footer__copyright { transform: translateY(14px); transition-delay: calc(var(--foot-other-delay) + 180ms); }
+  // the wordmark — larger travel, its own direction + arrival time
+  .footer[data-reveal].is-armed .footer__sig {
+    transform: translateY(var(--foot-sig-travel));
+    transition-duration: var(--foot-sig-dur);
+    transition-delay: var(--foot-sig-delay);
+  }
+  .footer[data-reveal].is-armed.is-revealed .footer__sig,
+  .footer[data-reveal].is-armed.is-revealed .footer__count,
+  .footer[data-reveal].is-armed.is-revealed .footer__contact,
+  .footer[data-reveal].is-armed.is-revealed .footer__copyright {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media print {
+  .footer[data-reveal] .footer__sig,
+  .footer[data-reveal] .footer__count,
+  .footer[data-reveal] .footer__contact,
+  .footer[data-reveal] .footer__copyright { opacity: 1 !important; transform: none !important; }
+}
+
+// Launch flag — menu hidden while the linked pages are stubs.
+// Restore: set data-menu="on" on .masthead (or delete this rule).
+.masthead[data-menu="off"] .nav,
+.masthead[data-menu="off"] .nav-toggle { display: none !important; }
+
+// =============================================================
+//   ADD-TO-CALENDAR — chooser modal (centered card + backdrop)
+//   Mirrors the .nav-sheet open/close mechanism; sits above it.
+// =============================================================
+.cal-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 70;                       // above nav-sheet (60) + masthead (50)
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s-5);
+  background: color-mix(in srgb, var(--base) 70%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity    var(--t-med) var(--ease-std),
+              visibility 0s linear    var(--t-med);
+}
+.cal-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity    var(--t-med) var(--ease-std),
+              visibility 0s linear    0s;
+}
+.cal-modal__card {
+  position: relative;
+  width: min(92vw, 27rem);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: var(--s-8) var(--s-7) var(--s-6);
+  background: var(--base);
+  border: 1px solid var(--rule);
+  // Soft lift off the dimmed backdrop — same ink shadow tone used in the hero.
+  box-shadow: 0 24px 80px rgba(20, 17, 15, 0.55);
+  text-align: center;
+  transform: translateY(8px) scale(0.985);
+  transition: transform var(--t-med) var(--ease-std);
+}
+.cal-modal.is-open .cal-modal__card { transform: translateY(0) scale(1); }
+
+.cal-modal__close {
+  position: absolute;
+  top: var(--s-2);
+  right: var(--s-3);
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: var(--ink-muted);
+  font-family: var(--type-display);
+  font-size: 1.6rem;
+  line-height: 1;
+  transition: color var(--t-fast) var(--ease-std);
+}
+.cal-modal__close:hover,
+.cal-modal__close:focus-visible { color: var(--ink); outline: none; }
+
+.cal-modal__title {
+  font-family: var(--type-display);
+  font-weight: var(--w-light);
+  font-size: var(--ts-subtitle);
+  color: var(--ink);
+  margin: 0;
+}
+.cal-modal__sub {
+  font-family: var(--type-caps);
+  font-weight: var(--w-medium);
+  font-size: var(--ts-label-sm);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  padding-left: var(--tracking-label);
+  margin: var(--s-3) 0 var(--s-6);
+}
+
+.cal-modal__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.cal-modal__list li + li { border-top: 1px solid var(--rule); }
+.cal-opt {
+  position: relative;
+  display: block;
+  padding: var(--s-4) var(--s-2);
+  font-family: var(--type-caps);
+  font-weight: var(--w-medium);
+  font-size: var(--ts-label-md);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  padding-left: var(--tracking-label);
+  transition: color var(--t-fast) var(--ease-std);
+}
+.cal-opt:hover,
+.cal-opt:focus-visible { color: var(--ink-whisper); outline: none; }
+.cal-opt::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  width: 0;
+  height: var(--mark-stroke);
+  background: var(--metallic);
+  opacity: var(--mark-op-ornamental);
+  transform: translateX(-50%);
+  transition: width var(--t-fast) var(--ease-std);
+}
+.cal-opt:hover::after,
+.cal-opt:focus-visible::after { width: 100%; }
+
+// Prevent body scroll while the modal is open (JS adds .cal-open to <body>)
+body.cal-open { overflow: hidden; }
+
+// Narrow phones — tighten padding and ease the sub-label's wide tracking so the
+// date line stays on one tidy row inside the slimmer card.
+@media (max-width: 460px) {
+  .cal-modal { padding: var(--s-4); }
+  .cal-modal__card { padding: var(--s-7) var(--s-5) var(--s-5); }
+  .cal-modal__sub { letter-spacing: 0.18em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cal-modal,
+  .cal-modal__card { transition: opacity var(--t-med) var(--ease-std); }
+  .cal-modal__card { transform: none; }
 }

@@ -6,6 +6,15 @@
 // ============================================================
 
 :root {
+  // ---- Footer signature reveal ----
+  // married.af enters from ABOVE and LEADS the supporting text.
+  // (Prototype tweak values: direction=above, timing=leads, travel=56px, gap=360ms.)
+  // Negative travel = comes down from the top.
+  --foot-sig-travel:  -56px;
+  --foot-sig-delay:   0ms;     // signature moves first
+  --foot-sig-dur:     1100ms;  // its own, slower arrival
+  --foot-other-delay: 360ms;   // supporting text follows a beat later
+
   // ---- Fonts ----
   --type-display: 'Cormorant Garamond', 'Times New Roman', serif; // display + paragraphs
   --type-caps:    'Cormorant SC', 'Cormorant Garamond', serif;    // small-caps labels
