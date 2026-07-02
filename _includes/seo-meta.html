@@ -1,6 +1,9 @@
 {%- comment -%}Per-page SEO + OG + Twitter meta. Gated pages set noindex via front matter.{%- endcomment -%}
 {%- assign title = page.seo_title | default: page.title -%}
-{%- if title -%}
+{%- if title == site.title -%}
+  {%- comment -%}Home: page title equals site title — avoid "A & F · A & F"{%- endcomment -%}
+  <title>{{ title }}</title>
+{%- elsif title -%}
   <title>{{ title }} · {{ site.title }}</title>
 {%- else -%}
   <title>{{ site.title }} · {{ site.tagline }}</title>

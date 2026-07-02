@@ -394,7 +394,7 @@
 .teaser-label {
   font-family: var(--type-caps);
   font-weight: var(--w-medium);
-  font-size: var(--ts-label-md);
+  font-size: 14px;   // off-scale: between --ts-label-lg (13px) and --ts-subtitle (16px+)
   letter-spacing: var(--tracking-label);
   line-height: var(--lh-label);
   text-transform: uppercase;
