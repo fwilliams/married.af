@@ -234,8 +234,8 @@
     var hours = parseInt(cd.dataset.duration, 10) || 10;   // 5 PM → 3 AM
     var end = new Date(start.getTime() + hours * 3600 * 1000);
 
-    var TITLE    = 'Amanda & Francis — Wedding';
-    var DETAILS  = 'A candlelit celebration with the people we love. married.af';
+    var TITLE    = 'Amanda & Francis Wedding';
+    var DETAILS  = 'Visit https://married.af for updates or email us at hello@married.af with any questions.';
     var LOCATION = 'Crew Collective, 360 Rue Saint-Jacques, Old Montréal, QC';
 
     var e = encodeURIComponent;
