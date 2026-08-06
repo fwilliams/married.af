@@ -33,7 +33,7 @@ wedding:
   venue: "Crew Collective"            # former Royal Bank of Canada, Old Montréal
   address: "360 Rue Saint-Jacques, Montréal" # fill in if you want full address rendered
   rsvp_deadline: ""                          # fill in when set
-  contact_email: "hello@married.af"          # placeholder
+  contact_email: "amandafrancis@married.af"
 
 # RSVP backend — Withjoy. Fill in the redirect URL after creating the Joy event.
 rsvp:
