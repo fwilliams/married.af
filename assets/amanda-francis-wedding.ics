@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//married.af//Amanda & Francis//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:amanda-francis-2027@married.af
+DTSTAMP:20260810T000000Z
+DTSTART:20270807T210000Z
+DTEND:20270808T070000Z
+SUMMARY:Amanda & Francis Wedding
+DESCRIPTION:Visit https://married.af for updates or email us at amandafrancis@married.af with any questions.
+LOCATION:Crew Collective\, 360 Rue Saint-Jacques\, Old Montréal\, QC
+END:VEVENT
+END:VCALENDAR
