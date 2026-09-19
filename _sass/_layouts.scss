@@ -37,11 +37,13 @@
   right: -40px;
   left: -40px;
   bottom: var(--hero-photo-bottom, -50vh);
-  background-image: var(--hero-photo, url('/assets/we_r_pretty.jpg'));
+  // Terrace at Taormina (DSC04519): landscape 3:2, the two of you on the right
+  // third looking out over the town. Chosen with /picker/ (dev tool).
+  background-image: var(--hero-photo, url('/assets/DSC04519.jpg'));
   // Desktop framing tunable via --desktop-bg-* custom properties (dev only).
-  // Production defaults: cover, center, 18% from top.
+  // Production defaults: cover, 72% from the left so the couple stays in frame.
   background-size: var(--desktop-bg-size, cover);
-  background-position: var(--desktop-bg-x, 50%) var(--desktop-bg-y, 29%);
+  background-position: var(--desktop-bg-x, 72%) var(--desktop-bg-y, 30%);
   filter: var(--photo-filter);
   transform: scale(1.02);
   transition: filter 600ms var(--ease-std);
@@ -148,14 +150,14 @@
 
 
 // Hero photo focal point — mobile reframing.
-// Portrait photo's faces sit in the upper third. On a tall portrait
-// viewport, the photo is width-cropped horizontally but the parallax
-// vertical buffer can push faces below the fold. Anchor higher on mobile.
+// A landscape photo on a tall phone viewport is height-limited by `cover`, so
+// only ~30% of its width shows; the horizontal position is what matters.
+// 81% keeps the couple (right third of the frame) centred on the phone.
 @media (max-width: 720px) {
   .hero-photo {
-    // Locked mobile framing: 115% zoom, 74% × 20% focal. Tunable in dev via
-    // --mobile-bg-* custom properties; defaults match production values.
-    background-size: var(--mobile-bg-size, 115%);
-    background-position: var(--mobile-bg-x, 74%) var(--mobile-bg-y, 20%);
+    // Tunable in dev via --mobile-bg-* custom properties (see /picker/);
+    // defaults match production values.
+    background-size: var(--mobile-bg-size, cover);
+    background-position: var(--mobile-bg-x, 81%) var(--mobile-bg-y, 30%);
   }
 }
