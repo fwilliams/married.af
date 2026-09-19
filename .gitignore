@@ -9,3 +9,5 @@ assets/shots/
 _plugins/*.rb.bak
 assets/shots-*/
 .DS_Store
+# hero candidates for /picker/ — local only, never deployed
+tentative_images/

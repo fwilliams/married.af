@@ -1,0 +1,13 @@
+#!/bin/sh
+# Local dev server for married.af — serves the site at http://localhost:4000
+# (hero picker at /picker/). Uses the Homebrew Ruby that owns vendor/bundle and
+# forces a UTF-8 locale: without one, Sass reads the SCSS as US-ASCII and fails
+# on the em-dashes in _tokens.scss.
+#
+#   bin/serve                 # localhost only
+#   bin/serve --host 0.0.0.0  # also reachable from your phone on the same Wi-Fi
+set -e
+cd "$(dirname "$0")/.."
+export LANG="${LANG:-en_US.UTF-8}" LC_ALL="${LC_ALL:-en_US.UTF-8}"
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+exec bundle exec jekyll serve --port 4000 "$@"

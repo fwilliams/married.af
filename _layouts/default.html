@@ -20,6 +20,11 @@
 
   <script>document.documentElement.classList.replace('no-js', 'js');</script>
 
+  {%- if page.url == "/" and jekyll.environment != "production" %}
+  <!-- Dev-only hero picker (see /picker/): absent from production builds, and locally it loads only when the URL carries ?hero-picker. -->
+  <script>if(/[?&]hero-picker(=|&|$)/.test(location.search)){var s=document.createElement('script');s.src='{{ "/assets/js/hero-picker.js" | relative_url }}';document.head.appendChild(s);}</script>
+  {%- endif %}
+
   {%- include analytics.html -%}
 </head>
 <body>

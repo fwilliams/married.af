@@ -63,6 +63,7 @@ exclude:
   - node_modules/
   - vendor/
   - .vscode/
+  - bin/            # dev scripts (bin/serve)
   - landing.html     # the mockup extract; not part of the real site
 
 defaults:

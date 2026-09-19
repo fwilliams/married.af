@@ -1,0 +1,200 @@
+---
+layout: null
+permalink: /picker/
+sitemap: false
+title: Hero picker
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="dark">
+<title>Hero picker · {{ site.title }}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Cormorant+SC:wght@500&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Dev tool — palette borrowed from _tokens.scss; nothing here ships to visitors. */
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; background: #0A0705; color: #F1E6CC; font: 15px/1.5 'EB Garamond', Georgia, serif; -webkit-font-smoothing: antialiased; }
+  .app { display: flex; min-height: 100vh; align-items: flex-start; }
+
+  /* ---- Panel ---- */
+  .panel { position: sticky; top: 0; flex: 0 0 340px; width: 340px; max-height: 100vh; overflow-y: auto; padding: 24px 20px 0; display: flex; flex-direction: column; gap: 18px; border-right: 1px solid rgba(181,137,74,.42); background: #15110D; }
+  .panel__foot { position: sticky; bottom: 0; margin: auto -20px 0; padding: 12px 20px 16px; background: #15110D; border-top: 1px solid rgba(181,137,74,.42); display: flex; flex-wrap: wrap; gap: 8px; }
+  h1 { font: 300 28px/1 'Cormorant Garamond', serif; margin: 0; letter-spacing: .015em; }
+  .sub, .sec__h, .cap, legend { font: 500 10px/1.3 'Cormorant SC', 'Cormorant Garamond', serif; letter-spacing: .4em; text-transform: uppercase; color: #998260; margin: 0; padding-left: .4em; }
+  .sec__h, legend { font-size: 11px; color: #C8B596; }
+  .sec__h small, legend small { float: right; font: 400 12px/1.3 'EB Garamond', serif; letter-spacing: 0; text-transform: none; color: #998260; }
+  .sec { display: flex; flex-direction: column; gap: 10px; }
+  fieldset { border: 0; padding: 0; margin: 0; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+  legend { width: 100%; padding: 0; margin: 0 0 10px; }
+  .rule { height: 1px; background: rgba(181,137,74,.42); flex: 0 0 1px; }
+
+  .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .thumb { position: relative; display: block; width: 100%; aspect-ratio: 3 / 2; padding: 0; border: 1px solid rgba(181,137,74,.42); background: #23170F; cursor: pointer; overflow: hidden; border-radius: 2px; outline: 2px solid transparent; outline-offset: 2px; transition: outline-color .2s, border-color .2s; }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .thumb:hover { border-color: #D4A55C; }
+  .thumb.is-on { outline-color: #D4A55C; border-color: #D4A55C; }
+  .thumb:focus-visible { outline: 2px solid #F1E6CC; outline-offset: 4px; }
+  .tag { position: absolute; left: 4px; bottom: 4px; font: 500 9px/1 'Cormorant SC', serif; letter-spacing: .3em; text-transform: uppercase; color: #F1E6CC; background: rgba(21,17,13,.88); padding: 3px 3px 2px 6px; border-radius: 1px; }
+  .meta { font-size: 14px; line-height: 1.4; color: #C8B596; margin: 0; }
+  .meta b { font-weight: 500; color: #F1E6CC; }
+  .meta span { color: #998260; }
+  .meta .soft { color: #D4A55C; font-size: 13px; }
+
+  /* Whole photo with the two crops drawn on it */
+  .preview { position: relative; width: 100%; background: #0A0705; border: 1px solid rgba(181,137,74,.42); border-radius: 2px; overflow: hidden; }
+  .preview img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; display: block; }
+  .crop { position: absolute; border: 1px solid; pointer-events: none; box-shadow: 0 0 0 1px rgba(10,7,5,.6); }
+  .crop--d { border-color: #D4A55C; }
+  .crop--m { border-color: #F1E6CC; border-style: dashed; }
+  .crop span { position: absolute; left: 0; top: 0; transform: translateY(-100%); font: 500 8px/1 'Cormorant SC', serif; letter-spacing: .3em; text-transform: uppercase; padding: 2px 3px 2px 5px; background: rgba(10,7,5,.75); color: inherit; white-space: nowrap; }
+  .crop--d span { color: #D4A55C; }
+  .crop--m span { color: #F1E6CC; }
+
+  .row { display: flex; align-items: center; gap: 10px; min-height: 40px; }
+  .row.is-inert { opacity: .45; }
+  .row label { flex: 0 0 78px; font-size: 14px; color: #C8B596; }
+  .row output { flex: 0 0 52px; text-align: right; font-size: 13px; font-variant-numeric: tabular-nums; }
+  input[type=range] { flex: 1; min-width: 0; height: 40px; margin: 0; accent-color: #B5894A; cursor: pointer; }
+  input[type=range]:disabled { cursor: default; }
+  .note { font-size: 13px; line-height: 1.4; color: #D4A55C; margin: 0; min-height: 36px; }
+
+  .tog { display: flex; align-items: center; gap: 10px; min-height: 36px; cursor: pointer; }
+  .tog span { color: #998260; font-size: 13px; }
+  .tog--select { justify-content: space-between; cursor: default; }
+  input[type=checkbox] { width: 16px; height: 16px; margin: 0; accent-color: #B5894A; cursor: pointer; }
+  select { font: 14px 'EB Garamond', serif; color: #F1E6CC; background: #23170F; border: 1px solid rgba(181,137,74,.42); border-radius: 2px; padding: 6px 8px; min-height: 36px; max-width: 100%; }
+  .btn { font: 500 11px/1 'Cormorant SC', serif; letter-spacing: .32em; text-transform: uppercase; color: #F1E6CC; background: transparent; border: 1px solid rgba(181,137,74,.42); padding: 12px 14px 11px 18px; min-height: 40px; border-radius: 2px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; transition: border-color .2s, color .2s; }
+  .btn:hover { border-color: #D4A55C; color: #E2BA77; }
+  .btn:focus-visible { outline: 2px solid #C99C5A; outline-offset: 2px; }
+  .btn--small { min-height: 32px; padding: 8px 10px 7px 13px; font-size: 10px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  /* ---- Stage ---- */
+  .stage { flex: 1; min-width: 0; padding: 24px 32px 48px; display: flex; flex-direction: column; gap: 24px; }
+  .frames { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; }
+  .frame { display: flex; flex-direction: column; gap: 8px; }
+  .frame__cap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; min-height: 32px; }
+  .frame__wrap { position: relative; overflow: hidden; background: #15110D; box-shadow: 0 30px 80px -30px rgba(0,0,0,.85); }
+  .frame__wrap iframe { position: absolute; top: 0; left: 0; border: 0; transform-origin: 0 0; background: #15110D; }
+  .frame--phone iframe { display: block; border: 0; background: #15110D; box-shadow: 0 30px 80px -30px rgba(0,0,0,.85); }
+  .frame[hidden] { display: none; }
+
+  .out { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; padding: 20px 24px; border: 1px solid rgba(181,137,74,.42); border-radius: 2px; background: #15110D; }
+  pre { margin: 0; flex: 1 1 520px; font: 12.5px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #F1E6CC; white-space: pre; overflow-x: auto; }
+  .side { flex: 1 1 320px; max-width: 440px; display: flex; flex-direction: column; gap: 12px; }
+  .hint { font-size: 14px; line-height: 1.5; color: #998260; margin: 0; }
+  .hint b { font-weight: 500; color: #C8B596; }
+  .hint code { font: 12.5px ui-monospace, Menlo, monospace; color: #C8B596; word-break: break-all; }
+  .status { min-height: 21px; }
+  .prod-note { max-width: 40ch; margin: 20vh auto; text-align: center; color: #998260; }
+</style>
+</head>
+<body>
+{% if jekyll.environment == "production" %}
+<p class="prod-note">This is a local development tool. Run <code>bin/serve</code> and open <code>/picker/</code>.</p>
+{% else %}
+<div class="app">
+  <aside class="panel">
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <h1>Hero background</h1>
+      <p class="sub">married.af · live CSS · dev only</p>
+    </div>
+
+    <section class="sec">
+      <h2 class="sec__h">Photo <small>click to switch</small></h2>
+      <div class="grid" data-grid></div>
+      <p class="meta" data-meta></p>
+      <div class="preview" data-preview style="aspect-ratio: 1.5;">
+        <img data-preview-img alt="The selected photo, uncropped">
+        <div class="crop crop--d" data-crop="d"><span>Laptop</span></div>
+        <div class="crop crop--m" data-crop="m"><span>Phone</span></div>
+      </div>
+    </section>
+
+    <div class="rule"></div>
+
+    <fieldset>
+      <legend>Laptop framing <small><select data-preset="d" aria-label="Laptop viewport"><option value="1440x800">1440 × 800</option><option value="1280x720">1280 × 720</option><option value="1536x864">1536 × 864</option><option value="1920x1080">1920 × 1080</option><option value="2560x1080">2560 × 1080 · ultrawide</option><option value="768x1024">768 × 1024 · iPad portrait</option><option value="820x1180">820 × 1180 · iPad Air</option></select></small></legend>
+      <div class="row" data-row="dx"><label for="dx">Horizontal</label><input id="dx" data-slider="dx" type="range" min="0" max="100" step="1"><output for="dx" data-out="dx"></output></div>
+      <div class="row" data-row="dy"><label for="dy">Vertical</label><input id="dy" data-slider="dy" type="range" min="0" max="100" step="1"><output for="dy" data-out="dy"></output></div>
+      <div class="row" data-row="dz"><label for="dz">Zoom</label><input id="dz" data-slider="dz" type="range" min="0.5" max="2" step="0.01"><output for="dz" data-out="dz"></output></div>
+      <p class="note" data-note="d"></p>
+    </fieldset>
+
+    <fieldset>
+      <legend>Phone framing <small><select data-preset="m" aria-label="Phone viewport"><option value="390x664x750">390 × 664 · iPhone 14/15</option><option value="430x739x825">430 × 739 · iPhone Pro Max</option><option value="360x640x696">360 × 640 · small Android</option></select></small></legend>
+      <div class="row" data-row="mx"><label for="mx">Horizontal</label><input id="mx" data-slider="mx" type="range" min="0" max="100" step="1"><output for="mx" data-out="mx"></output></div>
+      <div class="row" data-row="my"><label for="my">Vertical</label><input id="my" data-slider="my" type="range" min="0" max="100" step="1"><output for="my" data-out="my"></output></div>
+      <div class="row" data-row="mz"><label for="mz">Zoom</label><input id="mz" data-slider="mz" type="range" min="0.5" max="2" step="0.01"><output for="mz" data-out="mz"></output></div>
+      <p class="note" data-note="m"></p>
+    </fieldset>
+
+    <div class="rule"></div>
+
+    <section class="sec">
+      <h2 class="sec__h">Layers</h2>
+      <label class="tog"><input type="checkbox" data-toggle="grade">Grade <span>— overlay, filter, grain</span></label>
+      <label class="tog"><input type="checkbox" data-toggle="text">Type <span>— masthead, names, teaser</span></label>
+      <label class="tog tog--select" for="motion">Ken Burns <select id="motion" data-motion><option value="on">playing (22 s cycle)</option><option value="start">frozen at start · 1.03×</option><option value="end">frozen at end · 1.13×</option></select></label>
+    </section>
+
+    <div class="panel__foot">
+      <button type="button" class="btn" data-reset="photo">Reset this photo</button>
+      <button type="button" class="btn" data-reset="all">Reset all to live</button>
+    </div>
+  </aside>
+
+  <main class="stage" data-stage>
+    <div class="frames" data-frames>
+      <section class="frame frame--laptop">
+        <p class="cap frame__cap"><span data-cap="d">Laptop · 1440 × 800</span> · shown at <span data-scale>100%</span></p>
+        <div class="frame__wrap" data-wrap="d"><iframe title="Laptop preview of the homepage" data-frame="d" width="1440" height="800" loading="eager"></iframe></div>
+      </section>
+      <section class="frame frame--phone">
+        <p class="cap frame__cap"><span data-cap="m">Phone · 390 × 664</span><button type="button" class="btn btn--small" data-pin title="Keep a frozen copy of this frame to compare against">Pin to compare</button></p>
+        <div class="frame__wrap"><iframe title="Phone preview of the homepage" data-frame="m" width="390" height="664" loading="eager"></iframe></div>
+      </section>
+      <section class="frame frame--phone" data-pinned hidden>
+        <p class="cap frame__cap"><span data-cap="pin">Pinned</span><button type="button" class="btn btn--small" data-unpin>Unpin</button></p>
+        <div class="frame__wrap"><iframe title="Pinned phone preview for comparison" data-frame="pin" width="390" height="664" loading="eager"></iframe></div>
+      </section>
+    </div>
+
+    <section class="out">
+      <pre data-css></pre>
+      <div class="side">
+        <div class="btns">
+          <button type="button" class="btn" data-copy>Copy CSS</button>
+          <a class="btn" data-open="d" href="/" target="_blank" rel="noopener">Open full size ↗</a>
+        </div>
+        <p class="hint status" data-status aria-live="polite"></p>
+        <p class="hint"><b>Zoom 1.00×</b> is <code>cover</code> for the box the site actually paints: the frame plus a 40 px bleed on top and sides and 50vh below it for parallax. On an iPhone 100vh is the toolbar-hidden viewport, and the phone frame's box is made exactly that tall, so its crop is device-exact. <b>Horizontal</b> / <b>Vertical</b> are <code>background-position</code>: 0% pins the photo's left/top edge to that box, 100% its right/bottom edge. The gold and dashed rectangles on the small photo are the two crops.</p>
+        <p class="hint"><b>On your phone:</b> start the server with <code>bin/serve --host 0.0.0.0</code>, then open this URL with <code>localhost</code> replaced by your Mac's IP. It is a snapshot — after changing sliders, reload the phone with the new URL.<br><code data-phone-url></code></p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  // Candidates are whatever sits in tentative_images/ (gitignored, so never deployed).
+  window.HP_CURRENT = { file: "DSC04519.jpg", path: {{ '/assets/DSC04519.jpg' | relative_url | jsonify }} };
+  window.HP_PHOTOS = [
+    {%- for f in site.static_files -%}
+      {%- if f.path contains '/tentative_images/' -%}
+        {%- assign ext = f.extname | downcase -%}
+        {%- if ext == '.jpg' or ext == '.jpeg' -%}
+          { file: {{ f.name | jsonify }}, path: {{ f.path | relative_url | jsonify }} },
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  ];
+</script>
+<script src="{{ '/assets/js/hero-picker-panel.js' | relative_url }}"></script>
+{% endif %}
+</body>
+</html>
