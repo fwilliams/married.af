@@ -38,7 +38,7 @@ const PLAIN_TEXT = [
   'For now, please save the date.',
   '',
   'Add to Google Calendar: https://calendar.google.com/calendar/render?action=TEMPLATE&text=Amanda%20%26%20Francis%20Wedding&dates=20270807T210000Z%2F20270808T070000Z&location=Crew%20Collective%2C%20360%20Rue%20Saint-Jacques%2C%20Old%20Montr%C3%A9al%2C%20QC',
-  'Add to other calendars: https://married.af/assets/amanda-francis-wedding.ics',
+  'Add to Apple Calendar or Outlook: https://married.af/assets/amanda-francis-wedding.ics',
   '',
   'Visit married.af',
   '',
