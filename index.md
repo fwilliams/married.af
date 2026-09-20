@@ -34,8 +34,7 @@ permalink: /
     <div class="facts__grid">
       <div class="fact">
         <div class="fact__label">When</div>
-        <div class="fact__primary">{{ site.wedding.day_of_week }}, August 7</div>
-        <div class="fact__detail">{{ site.wedding.year_long }}</div>
+        <div class="fact__primary">{{ site.wedding.day_of_week }}, August 7<sup>th</sup>, {{ site.wedding.date_year }}</div>
       </div>
       <div class="facts__rule" aria-hidden="true"></div>
       <div class="fact">

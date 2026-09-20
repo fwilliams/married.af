@@ -732,6 +732,11 @@ body.menu-open { overflow: hidden; }
   margin: 0;
   // No italic emphasis inside facts — the field IS the emphasis.
 }
+.fact__primary sup {
+  font-size: 0.55em;
+  line-height: 0;
+  vertical-align: 0.6em;
+}
 .fact__detail {
   font-family: var(--type-caps);
   font-weight: var(--w-medium);
