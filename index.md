@@ -39,14 +39,13 @@ permalink: /
       <div class="facts__rule" aria-hidden="true"></div>
       <div class="fact">
         <div class="fact__label">Where</div>
-        <div class="fact__primary">{{ site.wedding.venue }}</div>
-		<div class="fact__detail">Est. 1928</div>
+        <div class="fact__primary">{{ site.wedding.location }}</div>
+        <div class="fact__detail">Qu&eacute;bec</div>
       </div>
       <div class="facts__rule" aria-hidden="true"></div>
       <div class="fact">
         <div class="fact__label">Address</div>
         <div class="fact__primary">360 Rue Saint-Jacques</div>
-        <div class="fact__detail">Old Montr&eacute;al &middot; Qu&eacute;bec</div>
       </div>
     </div>
     <div class="facts__foot">
