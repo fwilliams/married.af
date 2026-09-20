@@ -151,15 +151,16 @@ function sendTest() {
 function sendSaveTheDates() {
   var sheet = SpreadsheetApp.getActiveSheet();
   var html = fetchHtml_();
-  var count = 0;
+  var count = 0, recipients = 0;
   households_().forEach(function (h) {
     if (h.sent) return;
     send_(h.emails, h.greeting, html);
     sheet.getRange(h.row, h.sentCol).setValue(new Date());
-    count++;
+    count++; recipients += h.emails.length;
+    Logger.log('row ' + h.row + ': "' + h.greeting + '," → ' + h.emails.join(', '));
     Utilities.sleep(1200);   // gentle pacing; ~150 households takes about three minutes
   });
-  Logger.log('Sent ' + count + ' emails. Remaining quota today: ' + MailApp.getRemainingDailyQuota());
+  Logger.log('Sent ' + count + ' emails to ' + recipients + ' addresses (one email per household, addressed to everyone in the row). Remaining quota today: ' + MailApp.getRemainingDailyQuota());
 }
 
 function remainingQuota() {
