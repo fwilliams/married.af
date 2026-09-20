@@ -42,6 +42,7 @@
 
 var SUBJECT   = 'Save the date: Amanda & Francis, August 7th, 2027';
 var HTML_URL  = 'https://married.af/email/save-the-date/';
+var ICS_URL   = 'https://married.af/assets/amanda-francis-wedding.ics';   // attached to every email as a real calendar file
 var FROM_NAME = 'Amanda & Francis';
 var REPLY_TO  = 'amandafrancis@married.af';
 var TEST_TO   = 'amandafrancis@married.af';     // change to a personal Gmail to test inbox placement
@@ -137,6 +138,15 @@ function fetchHtml_() {
   return html;
 }
 
+// The invite as an attachment: mail clients (iPhone Mail, Gmail, Outlook) show a
+// calendar file as an event with an add-to-calendar action, whereas opening the
+// same .ics by URL on an iPhone offers to *subscribe* to it.
+function fetchIcs_() {
+  var res = UrlFetchApp.fetch(ICS_URL, { muteHttpExceptions: true });
+  if (res.getResponseCode() !== 200) throw new Error('Could not fetch ' + ICS_URL + ' (' + res.getResponseCode() + ')');
+  return Utilities.newBlob(res.getContentText(), 'text/calendar; charset=utf-8; method=PUBLISH', 'amanda-francis-wedding.ics');
+}
+
 function escapeHtml_(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
@@ -145,26 +155,26 @@ function personalize_(html, greeting) {
   return html.replace(/(<span data-greeting[^>]*>)[^<]*(<\/span>)/, '$1' + escapeHtml_(greeting) + '$2');
 }
 
-function send_(emails, greeting, html) {
-  var options = { htmlBody: personalize_(html, greeting), name: FROM_NAME, replyTo: REPLY_TO };
+function send_(emails, greeting, html, ics) {
+  var options = { htmlBody: personalize_(html, greeting), name: FROM_NAME, replyTo: REPLY_TO, attachments: [ics] };
   if (FROM_ADDRESS) options.from = FROM_ADDRESS;
   GmailApp.sendEmail(emails.join(','), SUBJECT, plainText_(greeting), options);
 }
 
 /** Sends one copy to TEST_TO, greeted as TEST_NAME. */
 function sendTest() {
-  send_([TEST_TO], TEST_NAME, fetchHtml_());
+  send_([TEST_TO], TEST_NAME, fetchHtml_(), fetchIcs_());
   Logger.log('Test sent to ' + TEST_TO + ' as "' + TEST_NAME + '," from ' + (FROM_ADDRESS || Session.getActiveUser().getEmail() || '(this account)'));
 }
 
 /** Sends to every household without a Sent stamp; stamps Sent. */
 function sendSaveTheDates() {
   var sheet = SpreadsheetApp.getActiveSheet();
-  var html = fetchHtml_();
+  var html = fetchHtml_(), ics = fetchIcs_();
   var count = 0, recipients = 0;
   households_().forEach(function (h) {
     if (h.sent) return;
-    send_(h.emails, h.greeting, html);
+    send_(h.emails, h.greeting, html, ics);
     sheet.getRange(h.row, h.sentCol).setValue(new Date());
     count++; recipients += h.emails.length;
     Logger.log('row ' + h.row + ': "' + h.greeting + '," → ' + h.emails.join(', '));

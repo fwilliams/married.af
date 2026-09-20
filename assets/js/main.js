@@ -267,7 +267,15 @@
       'END:VEVENT',
       'END:VCALENDAR'
     ].join('\r\n');
-    var icsHref = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+    // A blob: URL, not data: — iOS Safari ignores `download` on data: URLs (the
+    // tap does nothing), but downloads a blob and opens it in Calendar's import
+    // view when tapped. Fallback to data: only for browsers without Blob/URL.
+    var icsHref;
+    try {
+      icsHref = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' }));
+    } catch (e) {
+      icsHref = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+    }
 
     var compose = 'path=/calendar/action/compose&rru=addevent';
     var hrefs = {
