@@ -41,6 +41,11 @@ var HTML_URL  = 'https://married.af/email/save-the-date/';
 var FROM_NAME = 'Amanda & Francis';
 var REPLY_TO  = 'amandafrancis@married.af';
 var TEST_TO   = 'amandafrancis@married.af';     // change to a personal Gmail to test inbox placement
+// Normally leave empty: mail goes out as the account running the script, which
+// should be the real amandafrancis@married.af user (that is what makes SPF and
+// DKIM line up with married.af). Only if you must run it from another account,
+// set this to a "Send mail as" alias configured in that account's Gmail settings.
+var FROM_ADDRESS = '';
 var TEST_NAME = 'Amanda and Francis';
 var FALLBACK_GREETING = 'Friends and family';  // used only if a row has emails but no name
 
@@ -136,15 +141,15 @@ function personalize_(html, greeting) {
 }
 
 function send_(emails, greeting, html) {
-  GmailApp.sendEmail(emails.join(','), SUBJECT, plainText_(greeting), {
-    htmlBody: personalize_(html, greeting), name: FROM_NAME, replyTo: REPLY_TO
-  });
+  var options = { htmlBody: personalize_(html, greeting), name: FROM_NAME, replyTo: REPLY_TO };
+  if (FROM_ADDRESS) options.from = FROM_ADDRESS;
+  GmailApp.sendEmail(emails.join(','), SUBJECT, plainText_(greeting), options);
 }
 
 /** Sends one copy to TEST_TO, greeted as TEST_NAME. */
 function sendTest() {
   send_([TEST_TO], TEST_NAME, fetchHtml_());
-  Logger.log('Test sent to ' + TEST_TO + ' as "' + TEST_NAME + ',"');
+  Logger.log('Test sent to ' + TEST_TO + ' as "' + TEST_NAME + '," from ' + (FROM_ADDRESS || Session.getActiveUser().getEmail() || '(this account)'));
 }
 
 /** Sends to every household without a Sent stamp; stamps Sent. */
