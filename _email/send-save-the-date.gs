@@ -1,7 +1,9 @@
 /**
  * Send the save-the-date to every household in a Google Sheet — one email per
- * row, addressed to every email in the row, greeted by name — from the account
- * that runs this script (use amandafrancis@married.af).
+ * row, addressed to every email in the row, greeted by name. Run it signed in
+ * as afwedding@fwilliams.org; it sends AS the alias amandafrancis@married.af
+ * (FROM_ADDRESS below), which is what makes SPF/DKIM/DMARC line up with
+ * married.af. Without that, mail goes out as afwedding@fwilliams.org.
  *
  * Why not Gmail's mail merge / a pasted compose: pasting drops the <style>
  * block, the phone layout and the Outlook fixes, and mail merge is not offered
@@ -9,7 +11,7 @@
  * adds no unsubscribe footer, and still signs with the account's SPF/DKIM.
  *
  * SETUP (once)
- *   1. Signed in as amandafrancis@married.af, create a blank Google Sheet.
+ *   1. Signed in as afwedding@fwilliams.org, create a blank Google Sheet.
  *   2. Extensions → Apps Script. Replace the contents with this file. Save.
  *   3. Run `setupSheet`. It writes the header row, freezes it, sizes the
  *      columns, adds email validation and one example row (grey italics —
@@ -26,9 +28,11 @@
  * SENDING
  *   4. Run `previewGreetings` — logs every greeting and recipient list
  *      without sending, so the sheet can be checked at a glance.
- *   5. Run `sendTest`. It emails only TEST_TO. Open that message, choose
- *      "Show original", and confirm SPF PASS, DKIM PASS (header.d=married.af)
- *      and DMARC PASS before going further.
+ *   5. Run `sendTest`. It emails only TEST_TO (use an address OUTSIDE the
+ *      Workspace, e.g. a personal Gmail — internal mail isn't authenticated, so
+ *      Show original shows nothing). Open it, choose "Show original", and
+ *      confirm SPF PASS, DKIM PASS with domain married.af, DMARC PASS. If the
+ *      alias isn't set up in Gmail, GmailApp throws "Invalid from address".
  *   6. Run `sendSaveTheDates`. Rows already marked Sent are skipped, so it
  *      can run in batches (family first) by filling in / clearing Sent.
  *
@@ -41,11 +45,12 @@ var HTML_URL  = 'https://married.af/email/save-the-date/';
 var FROM_NAME = 'Amanda & Francis';
 var REPLY_TO  = 'amandafrancis@married.af';
 var TEST_TO   = 'amandafrancis@married.af';     // change to a personal Gmail to test inbox placement
-// Normally leave empty: mail goes out as the account running the script, which
-// should be the real amandafrancis@married.af user (that is what makes SPF and
-// DKIM line up with married.af). Only if you must run it from another account,
-// set this to a "Send mail as" alias configured in that account's Gmail settings.
-var FROM_ADDRESS = '';
+// The address the mail is sent AS. The account running the script is
+// afwedding@fwilliams.org; amandafrancis@married.af is one of its "Send mail as"
+// aliases (Gmail → Settings → Accounts). Sending as the alias puts married.af in
+// the From and envelope sender, so its SPF, DKIM and DMARC apply. Leave empty to
+// send as the signed-in account itself.
+var FROM_ADDRESS = 'amandafrancis@married.af';
 var TEST_NAME = 'Amanda and Francis';
 var FALLBACK_GREETING = 'Friends and family';  // used only if a row has emails but no name
 
