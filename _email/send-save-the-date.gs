@@ -65,7 +65,7 @@ function plainText_(greeting) {
     'save the date.',
     '',
     'SAVE THE DATE — Amanda & Francis',
-    'August 7th, 2027 · Old Montréal',
+    'August 7th, 2027 · Montréal',
     '',
     'Add to your calendar: https://married.af/assets/amanda-francis-wedding.ics',
     '',

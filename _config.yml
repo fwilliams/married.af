@@ -29,7 +29,7 @@ wedding:
   datetime_iso: "2027-08-07T17:00:00-04:00"   # ceremony start, Montréal (EDT). Drives the count + calendar.
   duration_hours: 10                           # 5 PM → 3 AM. Sets the calendar end time.
   masthead_sub: "Married · MMXXVII"        # short ornamental sub-mark below the A & F monogram
-  location: "Old Montréal"
+  location: "Montréal"
   venue: "Crew Collective"            # former Royal Bank of Canada, Old Montréal
   address: "360 Rue Saint-Jacques, Montréal" # fill in if you want full address rendered
   rsvp_deadline: ""                          # fill in when set

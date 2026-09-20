@@ -39,7 +39,7 @@ permalink: /
       <div class="facts__rule" aria-hidden="true"></div>
       <div class="fact">
         <div class="fact__label">Where</div>
-        <div class="fact__primary">{{ site.wedding.location }}</div>
+        <div class="fact__primary">Old Montr&eacute;al</div>
         <div class="fact__detail">Qu&eacute;bec</div>
       </div>
       <div class="facts__rule" aria-hidden="true"></div>
