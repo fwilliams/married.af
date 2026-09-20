@@ -15,7 +15,7 @@ permalink: /
 
   <div class="centerpiece">
     <h1 class="names"><span class="names__word">Amanda</span> <span class="amp">&amp;</span> <span class="names__word">Francis</span></h1>
-    <div class="date-line">{{ site.wedding.date_long }} &middot; {{ site.wedding.date_year }} &middot; {{ site.wedding.location }}</div>
+    <div class="date-line">{{ site.wedding.date_long }} &middot; {{ site.wedding.location }}</div>
     <p class="tagline">A candlelit celebration with the people we love</p>
     <div class="hairline"></div>
   </div>
