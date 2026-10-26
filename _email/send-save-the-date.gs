@@ -40,7 +40,7 @@
  * (500 while the account is in trial). Check with `remainingQuota`.
  */
 
-var SUBJECT   = 'Save the date: Amanda & Francis, August 7th, 2027';
+var SUBJECT   = 'Save the Date: Amanda & Francis, August 7th, 2027';
 var HTML_URL  = 'https://married.af/email/save-the-date/';
 var ICS_URL   = 'https://married.af/assets/amanda-francis-wedding.ics';   // attached to every email as a real calendar file
 var FROM_NAME = 'Amanda & Francis';
