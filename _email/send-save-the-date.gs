@@ -62,15 +62,15 @@ function plainText_(greeting) {
     greeting + ',',
     '',
     "We're having our wedding and we'd love for you to be there. The invitation and",
-    "everything you'll need to know about the weekend will follow. For now, please",
-    'save the date.',
+    'details about the weekend in Montréal will follow. For now, please save the',
+    'date.',
     '',
     'SAVE THE DATE — Amanda & Francis',
     'August 7th, 2027 · Montréal',
     '',
     'Add to your calendar: https://married.af/assets/amanda-francis-wedding.ics',
     '',
-    'Visit married.af',
+    'Visit us at https://married.af',
     '',
     'Questions? Write to us at amandafrancis@married.af'
   ].join('\n');
