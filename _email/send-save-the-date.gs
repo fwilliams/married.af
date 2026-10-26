@@ -41,6 +41,8 @@
  */
 
 var SUBJECT   = 'Save the Date: Amanda & Francis, August 7th, 2027';
+// The grey preview text Gmail and iPhone Mail show after the subject.
+var PREHEADER = 'August 7th, 2027 · Montréal. Please save the date.';
 var HTML_URL  = 'https://married.af/email/save-the-date/';
 var FROM_NAME = 'Amanda & Francis';
 var REPLY_TO  = 'amandafrancis@married.af';
@@ -142,7 +144,9 @@ function escapeHtml_(s) {
 }
 
 function personalize_(html, greeting) {
-  return html.replace(/(<span data-greeting[^>]*>)[^<]*(<\/span>)/, '$1' + escapeHtml_(greeting) + '$2');
+  return html
+    .replace(/(<span data-preheader[^>]*>)[^<]*(<\/span>)/, '$1' + escapeHtml_(PREHEADER) + '$2')
+    .replace(/(<span data-greeting[^>]*>)[^<]*(<\/span>)/, '$1' + escapeHtml_(greeting) + '$2');
 }
 
 function send_(emails, greeting, html) {
